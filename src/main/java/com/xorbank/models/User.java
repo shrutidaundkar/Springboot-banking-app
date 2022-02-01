@@ -24,11 +24,9 @@ public class User {
 	private String firstname;
 	@Column
 	private String lastname;
-	@Column
-	//(unique = true)
+	@Column(unique = true)
 	private String email;
-	@Column
-	//(unique = true)
+	@Column(unique = true)
 	private String mobile;
 	@Column
 	private String dateofbirth;

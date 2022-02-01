@@ -7,7 +7,7 @@ import com.xorbank.models.User;
 @Service
 public interface  SignUpService {
 	
-	public void saveUser(User user);
+	public User saveUser(User user);
 
 	public User getUser(Integer userId);
 }

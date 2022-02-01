@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xorbank.Utility;
@@ -23,6 +25,7 @@ import com.xorbank.services.impl.ResetPasswordService;
 import net.bytebuddy.utility.RandomString;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 public class ForgotPasswordController {
 	@Autowired
 	private JavaMailSender mailSender;
@@ -30,19 +33,21 @@ public class ForgotPasswordController {
 	@Autowired
 	private ResetPasswordService resetPasswordService;
 
-	@PostMapping("/forgot_password")
+	@PostMapping("/forgot-password")
 	public void processForgotPassword(@RequestBody ForgotCred fCred)
 			throws UnsupportedEncodingException, MessagingException, UserNotFoundException {
 		String email = fCred.getEmail();
 		String token = RandomString.make(10);
+		
 
 			resetPasswordService.updateResetPasswordToken(token, email);
-			String resetPasswordToken = token;
-			sendEmail(email, resetPasswordToken);
-
+			String resetPasswordLink = "http://localhost:4200/reset-password/" + token;
+		    System.out.println("Email : "+resetPasswordLink);
+			sendEmail(email, resetPasswordLink);
+			
 	}
 
-	public void sendEmail(String recipientEmail, String token) throws MessagingException, UnsupportedEncodingException {
+	public void sendEmail(String recipientEmail, String resetPasswordLink) throws MessagingException, UnsupportedEncodingException {
 
 		MimeMessage message = mailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message);
@@ -50,10 +55,10 @@ public class ForgotPasswordController {
 		helper.setFrom("team.accord.dummy@xorbank.com", "xorbank Support");
 		helper.setTo(recipientEmail);
 
-		String subject = "Here's the token to reset your password";
+		String subject = "Here's the link to reset your password";
 		String content = "<p>Hello,</p>" + "<p>You have requested to reset your password.</p>"
-				+ "<p>Find the token below to change your password:</p>"  + token
-				 + "<br>" + "<p>Ignore this email if you do remember your password, "
+				+ "<p>Find the below link to change your password:</p>"  + resetPasswordLink	+
+				 "<br>" + "<p>Ignore this email if you do remember your password, "
 				+ "or you have not made the request.</p>";
 
 		helper.setSubject(subject);
@@ -61,10 +66,11 @@ public class ForgotPasswordController {
 		mailSender.send(message);
 	}
 
-	@PostMapping("/reset_password")
+	@PostMapping("/reset-password")
 	public String processResetPassword(@RequestBody ForgotCred fCred) {
 		String token = fCred.getToken();
 		String password = fCred.getNewPassword();
+		System.out.println(password+" "+token);
 
 		User user = resetPasswordService.getByResetPasswordToken(token);
 

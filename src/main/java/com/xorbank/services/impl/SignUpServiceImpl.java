@@ -20,9 +20,9 @@ public class SignUpServiceImpl implements SignUpService{
 		super();
 		this.repo=repo;
 	}
-	public void saveUser(User user)
+	public User saveUser(User user)
 	{
-		repo.save(user);
+		return repo.save(user);
 	}
 
 	public User getUser(Integer userId) {

@@ -24,9 +24,8 @@ public class LoginController {
 
 	
 	@PostMapping("/login")
-	public int findOneByEmailAndPassword( @RequestBody LoginCred login){
-		//ResponseEntity<User> resp = new ResponseEntity<User>(loginService.findOneByEmailAndPassword(login), HttpStatus.CREATED);
-		//return resp.getStatusCodeValue(); 
-		return 201;
+	public int findOneByEmailAndPassword( @RequestBody LoginCred login) throws UserNotFoundException{
+		ResponseEntity<User> resp = new ResponseEntity<User>(loginService.findOneByEmailAndPassword(login), HttpStatus.CREATED);
+		return resp.getBody().getUserid(); 
 	}
 }

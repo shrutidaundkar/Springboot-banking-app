@@ -15,7 +15,7 @@ public class LoginServiceImpl implements LoginService{
 	@Autowired
 	private UserRepository repo;
 
-	public String findOneByEmailAndPassword(LoginCred login)throws UserNotFoundException	{
+	public User findOneByEmailAndPassword(LoginCred login)throws UserNotFoundException	{
 		
 		User user1 = repo.findByEmail(login.getEmail());
 		User user = repo.findOneByEmailAndPassword(login.getEmail(), login.getPassword());
@@ -26,7 +26,7 @@ public class LoginServiceImpl implements LoginService{
 		if (user == null)
 			throw new UserNotFoundException("Password Incorrect, Please try again..!");
 		else
-			return "Login Succesfull..!";
+			return user;
 	}
 
 }

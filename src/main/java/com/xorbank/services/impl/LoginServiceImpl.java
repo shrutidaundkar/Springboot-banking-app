@@ -13,14 +13,10 @@ public class LoginServiceImpl implements LoginService{
 	@Autowired
 	private UserRepository repo;
 
-	public String findOneByEmailAndPassword(LoginCred login){
+	public User findOneByEmailAndPassword(LoginCred login){
 		User user = repo.findOneByEmailAndPassword(login.getEmail(), login.getPassword());
 
-		if (user == null)
-			return "Email or password invalid..!";
-		else
-			return "Login Succesfull..!";
-
+		return user;
 	}
 
 }

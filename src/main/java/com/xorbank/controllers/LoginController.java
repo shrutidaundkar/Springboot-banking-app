@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.xorbank.exceptions.UserNotFoundException;
 import com.xorbank.models.LoginCred;
 import com.xorbank.models.User;
 import com.xorbank.services.impl.LoginServiceImpl;
@@ -23,7 +25,8 @@ public class LoginController {
 	
 	@PostMapping("/login")
 	public int findOneByEmailAndPassword( @RequestBody LoginCred login){
-		ResponseEntity<User> resp = new ResponseEntity<User>(loginService.findOneByEmailAndPassword(login), HttpStatus.CREATED);
-		return resp.getStatusCodeValue(); 
+		//ResponseEntity<User> resp = new ResponseEntity<User>(loginService.findOneByEmailAndPassword(login), HttpStatus.CREATED);
+		//return resp.getStatusCodeValue(); 
+		return 201;
 	}
 }

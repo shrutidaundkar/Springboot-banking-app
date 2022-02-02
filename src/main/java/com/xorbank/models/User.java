@@ -2,7 +2,6 @@ package com.xorbank.models;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.TableGenerator;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
 @Entity
@@ -39,24 +38,18 @@ public class User {
 	private String resetPasswordToken;
 	
 	@OneToMany(mappedBy = "user")
+	@JsonManagedReference
 	private List<Account> accounts = new ArrayList<Account>();
 
 	public User(){}
-	
-
 	
 	public String getResetPasswordToken() {
 		return resetPasswordToken;
 	}
 
-
 	public void setResetPasswordToken(String resetPasswordToken) {
 		this.resetPasswordToken = resetPasswordToken;
 	}
-
-
-
-
 
 	public User(int userid, String firstname, String lastname, String email, String mobile, String dateofbirth,
 			String gender, String password, String resetPasswordToken, List<Account> accounts) {

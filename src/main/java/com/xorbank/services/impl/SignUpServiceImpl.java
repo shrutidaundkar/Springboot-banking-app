@@ -3,6 +3,7 @@ package com.xorbank.services.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.xorbank.exceptions.UserNotFoundException;
 import com.xorbank.models.User;
 import com.xorbank.repository.UserRepository;
 import com.xorbank.services.SignUpService;

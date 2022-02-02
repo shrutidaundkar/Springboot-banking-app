@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.xorbank.exceptions.UserNotFoundException;
 import com.xorbank.models.LoginCred;
 import com.xorbank.services.impl.LoginServiceImpl;
 
@@ -20,7 +22,7 @@ public class LoginController {
 
 	
 	@PostMapping("/login")
-	public ResponseEntity<String> findOneByEmailAndPassword( @RequestBody LoginCred login){
+	public ResponseEntity<String> findOneByEmailAndPassword( @RequestBody LoginCred login) throws UserNotFoundException{
 		return ResponseEntity.ok().body(loginService.findOneByEmailAndPassword(login)) ;
 	}
 }

@@ -8,6 +8,8 @@ import com.xorbank.models.User;
 public interface  SignUpService {
 	
 	public User saveUser(User user);
-
+	public boolean checkEmail(String email);
+	public boolean checkMobileNumber(String mobile);
 	public User getUser(Integer userId);
+	
 }

@@ -1,6 +1,7 @@
 package com.xorbank.models;
 
 import java.io.Serializable;
+import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name="accountdata")
@@ -33,10 +35,13 @@ public class Account implements Serializable{
 	private Double balance;
 	
 	@ManyToOne
+	@JsonBackReference
 	private User user;
 
+	private boolean accountStatus;
+	
 	public Account() {
-		
+		this.accountStatus= true;
 	}
 	public Account(int accountId, String accountType, String dateCreated, Double balance, User user) {
 		super();
@@ -45,6 +50,15 @@ public class Account implements Serializable{
 		this.dateCreated = dateCreated;
 		this.balance = balance;
 		this.user = user;
+		this.accountStatus= true;
+	}
+	public Account(String accountType, String dateCreated, Double balance, User user) {
+		super();
+		this.accountType = accountType;
+		this.dateCreated = dateCreated;
+		this.balance = balance;
+		this.user = user;
+		this.accountStatus= true;
 	}
 	public int getAccountId() {
 		return accountId;
@@ -73,13 +87,21 @@ public class Account implements Serializable{
 	public User getUser() {
 		return user;
 	}
-	public void setUser(User user) {
+	public Collection<?> setUser(User user) {
 		this.user = user;
+		return null;
+	}
+	
+	public Boolean getAccountStatus() {
+		return accountStatus;
+	}
+	public boolean setAccountStatus(Boolean accountStatus) {
+		return this.accountStatus = accountStatus;
 	}
 	@Override
 	public String toString() {
 		return "Account [accountId=" + accountId + ", accountType=" + accountType + ", dateCreated=" + dateCreated
-				+ ", balance=" + balance + ", user=" + user + "]";
+				+ ", balance=" + balance + ", user=" + user + ", accountStatus=" + accountStatus + "]";
 	}
 	
 	

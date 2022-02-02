@@ -1,6 +1,7 @@
 package com.xorbank.services.impl;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.xorbank.models.Account;
@@ -25,7 +26,32 @@ public class AccountCreationServiceImpl implements AccountCreationService{
 		
 		return repository.save(a);
 	}
+
+	@Override
+	public List<Account> getAllAccounts(int userId) {
+		//System.out.println("userId"+repository.findByUserId(userId));
+		//return repository.findAll().retainAll(new Account().setUser(null));
+		return repository.findAll();
+	}
+
+	@Override
+	public boolean getAccountStatus(int accountId) {
 	
+		return repository.getById(accountId).getAccountStatus();
+	}
+
+	@Override
+	public Account getAccount(int accountId) {
+		// TODO Auto-generated method stub
+		System.out.println(repository.getById(accountId));
+		return repository.getById(accountId);
+	}
+
+	@Override
+	public Account updateAccount(Account account) {
+		// TODO Auto-generated method stub
+		return repository.save(account);
+	}
 	
 
 }

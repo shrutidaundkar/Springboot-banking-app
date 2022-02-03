@@ -64,7 +64,6 @@ public class ForgotPasswordController {
 	public String processResetPassword(@RequestBody ForgotCred fCred) {
 		String token = fCred.getToken();
 		String password = fCred.getNewPassword();
-		System.out.println(password+" "+token);
 
 		User user = resetPasswordService.getByResetPasswordToken(token);
 

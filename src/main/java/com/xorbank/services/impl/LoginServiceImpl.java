@@ -16,19 +16,18 @@ public class LoginServiceImpl implements LoginService{
 	@Autowired
 	private UserRepository repo;
 
-	public String findOneByEmailAndPassword(LoginCred login)throws UserNotFoundException	{
+	public User findOneByEmailAndPassword(LoginCred login)throws UserNotFoundException	{
 		
 		User find_user_by_email = repo.findByEmail(login.getEmail());
-		User find_user_by_email_and_password = repo.findOneByEmailAndPassword(login.getEmail(), login.getPassword());
+		User user = repo.findOneByEmailAndPassword(login.getEmail(), login.getPassword());
 
 		if (find_user_by_email == null)
 			throw new UserNotFoundException(ConstantMessages.getEmailNotRegisteredMessage());
 
-		if (find_user_by_email_and_password == null)
+		if (user == null)
 			throw new UserNotFoundException(ConstantMessages.getPasswordincorrectmessage());
 		else
-			return ConstantMessages.getLoginsuccessmessage();
-
+			return user;
 	}
 
 }

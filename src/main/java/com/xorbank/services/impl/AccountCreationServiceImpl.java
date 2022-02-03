@@ -11,9 +11,8 @@ import com.xorbank.services.AccountCreationService;
 
 @Service
 public class AccountCreationServiceImpl implements AccountCreationService{
-
-
-	private AccountRepository repository;
+	
+	private final AccountRepository repository;
 	
 	@Autowired
 	public AccountCreationServiceImpl(AccountRepository repository) {
@@ -29,8 +28,6 @@ public class AccountCreationServiceImpl implements AccountCreationService{
 
 	@Override
 	public List<Account> getAllAccounts(int userId) {
-		//System.out.println("userId"+repository.findByUserId(userId));
-		//return repository.findAll().retainAll(new Account().setUser(null));
 		return repository.findAll();
 	}
 

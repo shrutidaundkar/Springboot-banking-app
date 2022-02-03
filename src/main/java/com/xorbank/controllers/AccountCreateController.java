@@ -1,11 +1,15 @@
 package com.xorbank.controllers;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,15 +20,21 @@ import com.xorbank.models.AccountCred;
 import com.xorbank.models.User;
 import com.xorbank.models.UserBody;
 import com.xorbank.services.AccountCreationService;
+import com.xorbank.services.ProfileService;
 import com.xorbank.services.SignUpService;
 
 @RestController
 @RequestMapping(path="/server")
 @CrossOrigin(origins = "http://localhost:4200")
 public class AccountCreateController {
-
+	@Autowired
 	private AccountCreationService accountCreationService;
+	
+	@Autowired
 	private SignUpService signupService;
+	
+	@Autowired
+	private ProfileService profileService;
 	
 
 	public AccountCreateController(AccountCreationService accountCreationService, SignUpService signupService) {
@@ -34,7 +44,7 @@ public class AccountCreateController {
 	}
 
 
-	@PostMapping(path="account/")
+	@PostMapping(path="/account")
 	public  ResponseEntity<Account> signUp(@RequestBody AccountCred accountCred) {
 		
 		User user= null;
@@ -55,11 +65,11 @@ public class AccountCreateController {
 		}
 		return response;
 	}
-	
-	@PostMapping(path = "all-accounts/")
-	public List<Account> getAllAccounts(@RequestBody UserBody userId){
-		System.out.println("userId"+userId);
-		return accountCreationService.getAllAccounts(userId.getUserid());
+
+	@GetMapping(path = "all-accounts/{userid}")
+	public List<Account> getAllAccounts(@PathVariable("userid") Integer userId){
+		return profileService.findByUserId(userId).getAccounts();
+		
 	}
 	
 	@PutMapping(path = "account/deactivate")

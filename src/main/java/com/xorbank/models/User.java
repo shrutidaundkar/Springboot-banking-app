@@ -30,6 +30,8 @@ public class User {
 	@Column
 	private String dateofbirth;
 	@Column
+	private String age;
+	@Column
 	private String gender;
 	@Column
 	private String password;
@@ -51,8 +53,10 @@ public class User {
 		this.resetPasswordToken = resetPasswordToken;
 	}
 
+	
+	
 	public User(int userid, String firstname, String lastname, String email, String mobile, String dateofbirth,
-			String gender, String password, String resetPasswordToken, List<Account> accounts) {
+			String age, String gender, String password, String resetPasswordToken, List<Account> accounts) {
 		super();
 		this.userid = userid;
 		this.firstname = firstname;
@@ -60,15 +64,20 @@ public class User {
 		this.email = email;
 		this.mobile = mobile;
 		this.dateofbirth = dateofbirth;
+		this.age = age;
 		this.gender = gender;
 		this.password = password;
 		this.resetPasswordToken = resetPasswordToken;
 		this.accounts = accounts;
 	}
 
+	public String getAge() {
+		return age;
+	}
 
-
-
+	public void setAge(String age) {
+		this.age = age;
+	}
 
 	public List<Account> getAccounts() {
 		return accounts;
@@ -129,12 +138,12 @@ public class User {
 		this.password = password;
 	}
 
-
 	@Override
 	public String toString() {
-		return "User [userID=" + userid + ", firstName=" + firstname + ", lastName=" + lastname + ", email="
-				+ email + ", mobileNo=" + mobile + ", dateOfBirth=" + dateofbirth + ", gender=" + gender
-				+ ", password=" + password + "]";
+		return "User [userid=" + userid + ", firstname=" + firstname + ", lastname=" + lastname + ", email=" + email
+				+ ", mobile=" + mobile + ", dateofbirth=" + dateofbirth + ", age=" + age + ", gender=" + gender
+				+ ", password=" + password + ", resetPasswordToken=" + resetPasswordToken + ", accounts=" + accounts
+				+ "]";
 	}
 	
 }

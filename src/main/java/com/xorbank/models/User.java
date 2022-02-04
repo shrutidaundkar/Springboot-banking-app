@@ -7,7 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -44,12 +46,17 @@ public class User {
 	@OneToMany(mappedBy = "user")
 	@JsonManagedReference
 	private List<Account> accounts = new ArrayList<Account>();
+	
+	@OneToOne
+    @JoinColumn(name = "document_id", referencedColumnName = "id")
+	private Document document;
 
 	public User() {
 	}
-
+	
 	public User(int userid, String firstname, String lastname, String email, String mobile, String dateofbirth,
-			String age, String gender, String password, String resetPasswordToken, List<Account> accounts, String emailVerificationCode) {
+			String age, String gender, String password, String resetPasswordToken, String emailVerificationCode,
+			boolean emailVerified, List<Account> accounts, Document document) {
 		super();
 		this.userid = userid;
 		this.firstname = firstname;
@@ -62,7 +69,18 @@ public class User {
 		this.password = password;
 		this.resetPasswordToken = resetPasswordToken;
 		this.emailVerificationCode = emailVerificationCode;
+		this.emailVerified = emailVerified;
 		this.accounts = accounts;
+		this.document = document;
+	}
+
+	
+	public Document getDocument() {
+		return document;
+	}
+
+	public void setDocument(Document document) {
+		this.document = document;
 	}
 
 	public String getAge() {

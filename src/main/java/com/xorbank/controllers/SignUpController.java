@@ -35,7 +35,7 @@ public class SignUpController {
 	private AdminServiceImpl adminService;
 
 	@PostMapping("/save")
-	@Transactional
+	@Transactional									///Response Message
 	public int signUpUser(@RequestBody User user) throws UnsupportedEncodingException, MessagingException {
 		if (!signupService.checkEmail(user.getEmail())) {
 			if (!signupService.checkMobileNumber(user.getMobile())) {
@@ -47,7 +47,7 @@ public class SignUpController {
 
 				ResponseEntity<User> resp = new ResponseEntity<User>(signupService.saveUser(user), HttpStatus.CREATED);
 
-				signupService.sendVerificationEmail(user, site_url);
+//				signupService.sendVerificationEmail(user, site_url);
 
 				return resp.getStatusCodeValue();
 			} else {
@@ -58,7 +58,7 @@ public class SignUpController {
 	}
 	
 	
-	@PostMapping("/verify")
+	@PostMapping("/verify")										///Response Message
 	public String verifyUser(@RequestBody User user) {
 	    if (signupService.verify(user.getEmailVerificationCode())) {
 	        return "verification successful";

@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class MyExceptionHandler {
 	@ExceptionHandler(UserNotFoundException.class)
 	public ResponseEntity<?> userNotFoundException(UserNotFoundException ex) {
-		ErrorDetails errorDetails = new ErrorDetails(ex.getMessage());
+		ResponseMessage errorDetails = new ResponseMessage(ex.getMessage(),400);
 		return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
 	}
 
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<?> globalExcpetionHandler(Exception ex) {
-		ErrorDetails errorDetails = new ErrorDetails(ex.getMessage());
+		ResponseMessage errorDetails = new ResponseMessage(ex.getMessage(),400);
 		return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }

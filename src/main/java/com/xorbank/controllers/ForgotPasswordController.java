@@ -28,7 +28,7 @@ public class ForgotPasswordController {
 	private ResetPasswordService resetPasswordService;
 
 	@PostMapping("/forgot-password")
-	public void processForgotPassword(@RequestBody ForgotCred fCred)
+	public void processForgotPassword(@RequestBody ForgotCred fCred) 				///Response Message
 			throws UnsupportedEncodingException, MessagingException, UserNotFoundException {
 		String email = fCred.getEmail();
 		String token = RandomString.make(10);
@@ -61,7 +61,7 @@ public class ForgotPasswordController {
 	}
 
 	@PostMapping("/reset-password")
-	public String processResetPassword(@RequestBody ForgotCred fCred) {
+	public String processResetPassword(@RequestBody ForgotCred fCred) {				///Response Message
 		String token = fCred.getToken();
 		String password = fCred.getNewPassword();
 

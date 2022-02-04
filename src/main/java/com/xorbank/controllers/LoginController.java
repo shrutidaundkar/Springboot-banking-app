@@ -23,7 +23,7 @@ public class LoginController {
 	private LoginServiceImpl loginService;
 
 	
-	@PostMapping("/login")
+	@PostMapping("/login")			///Response Message or userid
 	public int findOneByEmailAndPassword( @RequestBody LoginCred login) throws UserNotFoundException{
 		User user=loginService.findOneByEmailAndPassword(login);
 		if(user==null) {

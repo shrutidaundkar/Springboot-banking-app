@@ -73,7 +73,7 @@ public class AccountCreateController {
 	}
 	
 	@PutMapping(path = "account/deactivate")
-	public boolean deactivateAccount(@RequestBody UserBody user){
+	public boolean deactivateAccount(@RequestBody UserBody user){		///Response Message
 		Account account = accountCreationService.getAccount(user.getAccountId());
 		account.setAccountStatus(false);
 		if(accountCreationService.updateAccount(account)!= null)

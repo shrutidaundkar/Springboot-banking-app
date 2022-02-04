@@ -6,21 +6,18 @@ import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.xorbank.ConstantMessages;
+import com.xorbank.exceptions.ResponseMessage;
 import com.xorbank.models.User;
 import com.xorbank.services.impl.AdminServiceImpl;
 import com.xorbank.services.impl.SignUpServiceImpl;
-
 import net.bytebuddy.utility.RandomString;
 
 @RestController
@@ -35,8 +32,10 @@ public class SignUpController {
 	private AdminServiceImpl adminService;
 
 	@PostMapping("/save")
-	@Transactional									///Response Message
-	public int signUpUser(@RequestBody User user) throws UnsupportedEncodingException, MessagingException {
+	@Transactional 
+	public ResponseMessage signUpUser(@RequestBody User user) 
+			throws UnsupportedEncodingException, MessagingException {
+		
 		if (!signupService.checkEmail(user.getEmail())) {
 			if (!signupService.checkMobileNumber(user.getMobile())) {
 
@@ -45,26 +44,29 @@ public class SignUpController {
 				user.setEmailverified(false);
 				String site_url = ConstantMessages.getSiteurl();
 
-				ResponseEntity<User> resp = new ResponseEntity<User>(signupService.saveUser(user), HttpStatus.CREATED);
+				if (signupService.saveUser(user)) {
+					signupService.sendVerificationEmail(user, site_url);
+					return new ResponseMessage("Password Reset Successful!", 201);
+					
+				} else {
+					return new ResponseMessage("Password Reset Unsuccessful!", 400);
+				}
 
-//				signupService.sendVerificationEmail(user, site_url);
-
-				return resp.getStatusCodeValue();
 			} else {
-				return 1001; // Mobile number already exists
+				return new ResponseMessage("Duplicate Mobile Number!", 400);
+
 			}
 		} else
-			return 1002; // Email already exists
+			return new ResponseMessage("Duplicate Email!", 400);
 	}
-	
-	
-	@PostMapping("/verify")										///Response Message
-	public String verifyUser(@RequestBody User user) {
-	    if (signupService.verify(user.getEmailVerificationCode())) {
-	        return "verification successful";
-	    } else {
-	        return "verification failed";
-	    }
+
+	@PostMapping("/verify") 
+	public ResponseMessage verifyUser(@RequestBody User user) {
+		if (signupService.verify(user.getEmailVerificationCode())) {
+			return new ResponseMessage("verification successful", 201); 
+		} else {
+			return new ResponseMessage("verification failed", 201);
+		}
 	}
 
 	@GetMapping("/all-users")

@@ -32,8 +32,12 @@ public class SignUpServiceImpl implements SignUpService {
 		this.repo = repo;
 	}
 
-	public User saveUser(User user) {
-		return repo.save(user);
+	public boolean saveUser(User user) {
+		if(repo.save(user)!=null) {
+			return true;
+		}
+		else
+			return false;
 	}
 
 	public User getUser(Integer userId) {

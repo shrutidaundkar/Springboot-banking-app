@@ -21,9 +21,9 @@ public class AccountCreationServiceImpl implements AccountCreationService{
 	}
 
 	@Override
-	public Account createAccount(Account a) {
+	public boolean createAccount(Account a) {
 		
-		return repository.save(a);
+		return repository.save(a).getAccountStatus();
 	}
 
 	@Override

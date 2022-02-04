@@ -7,7 +7,7 @@ import com.xorbank.models.Account;
 
 public interface AccountCreationService {
 
-	Account createAccount(Account a);
+	boolean createAccount(Account a);
 	Account getAccount(int accountId);
 	boolean getAccountStatus( int accountId);
 	List<Account> getAllAccounts(int userId);

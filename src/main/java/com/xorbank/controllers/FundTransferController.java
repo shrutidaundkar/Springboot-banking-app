@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.xorbank.exceptions.ResponseMessage;
 import com.xorbank.models.Transaction;
 import com.xorbank.services.FundTransferService;
 
@@ -23,12 +25,12 @@ public class FundTransferController {
 
 	
 	@PutMapping("/transfer")
-	public Transaction fundTransfer(@RequestBody Transaction transactionDetails) throws Exception{
+	public ResponseMessage fundTransfer(@RequestBody Transaction transactionDetails) throws Exception{
 		System.out.println("Fund:"+transactionDetails.getFromAccount());
 		if(fundTransferService.checkAccountValidity(transactionDetails.getFromAccount()) && fundTransferService.getAccountStatus(transactionDetails.getFromAccount())) {
 			Transaction transaction =  fundTransferService.sendAmount(transactionDetails.getFromAccount(), transactionDetails.getToAccount(), transactionDetails.getAmount(),transactionDetails.getDescription());
 			System.out.println(transaction);
-			return transaction;
+			return new ResponseMessage("Fund Transfer Successful!", 201);
 		}
 		throw new Exception("Account invalid or deactivated!");
 	}

@@ -29,7 +29,7 @@ public class ProfileController {
 		return new ResponseEntity<>(user, HttpStatus.OK);
 	}
 	@PutMapping("/profile/update")
-	public ResponseEntity<User> updateEmployee(@RequestBody User user) 			///Response Message
+	public ResponseEntity<User> updateEmployee(@RequestBody User user) 	
 	{
 		User updatedUser = profileService.updateUser(user);
 		return new ResponseEntity<>(updatedUser, HttpStatus.OK);

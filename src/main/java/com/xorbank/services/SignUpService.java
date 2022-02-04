@@ -11,7 +11,7 @@ import com.xorbank.models.User;
 @Service
 public interface SignUpService {
 
-	public User saveUser(User user);
+	public boolean saveUser(User user);
 
 	public boolean checkEmail(String email);
 

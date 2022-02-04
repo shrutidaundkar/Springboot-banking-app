@@ -56,7 +56,7 @@ public class AccountCreateController {
 		if(accountCreationService.createAccount(account)) {
 			return new ResponseMessage("Account Created Successfully!", 201);
 		}else {
-			throw new Exception("Account could not be created!");
+			return new ResponseMessage("Account could not be created!",400);
 		}
 	}
 

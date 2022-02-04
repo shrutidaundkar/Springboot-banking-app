@@ -26,7 +26,7 @@ public class LoginController {
 	public ResponseMessage findOneByEmailAndPassword( @RequestBody LoginCred login) throws UserNotFoundException,Exception{
 		User user=loginService.findOneByEmailAndPassword(login);
 		if(user==null) {
-			throw new UserNotFoundException("Invalid id or password!");
+			return new ResponseMessage("Invalid id or password!",400);
 		}else {
 			return new ResponseMessage("Login Successful!",user.getUserid());
 		}

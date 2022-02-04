@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.xorbank.exceptions.ResponseMessage;
 import com.xorbank.models.Account;
 import com.xorbank.models.Transaction;
 import com.xorbank.repository.AccountRepository;
@@ -40,7 +42,7 @@ public class FundTransferServiceImpl implements FundTransferService {
 	}
 
 	@Override
-	public Transaction sendAmount(int fromAccount, int toAccount, double amount,String description) throws Exception {
+	public ResponseMessage sendAmount(int fromAccount, int toAccount, double amount,String description) throws Exception {
 		Transaction transaction = new Transaction();
 		transaction.setFromAccount(fromAccount);
 		transaction.setToAccount(toAccount);
@@ -61,26 +63,25 @@ public class FundTransferServiceImpl implements FundTransferService {
 					transaction.setTransactionStatus("SUCCESS");
 					transactionRepository.save(transaction);	
 					getAllTransactionsFromAccount(fromAccount);
-					
+					return new ResponseMessage("Transaction Successful",201);
 					
 				} else {
 					transaction.setTransactionStatus("FAILED");
 					transactionRepository.save(transaction);
-					throw new Exception("Insufficient Balance");
+					return new ResponseMessage("Insufficient Balance",400);
 				}
 
 			} else {
 				transaction.setTransactionStatus("FAILED");
 				transactionRepository.save(transaction);
-				throw new Exception("Account Deactivated");
+				return new ResponseMessage("Account Deactivated or Account does not exist",400);
 			}
 
 		} else {
 			transaction.setTransactionStatus("FAILED");
 			transactionRepository.save(transaction);
-			throw new Exception("Sender and receiver account cannot be same!");
+			return new ResponseMessage("Sender and receiver account cannot be same!",400);
 		}
-		return transaction;
 	}
 
 	@Override

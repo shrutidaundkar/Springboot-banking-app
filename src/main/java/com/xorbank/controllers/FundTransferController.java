@@ -28,11 +28,10 @@ public class FundTransferController {
 	public ResponseMessage fundTransfer(@RequestBody Transaction transactionDetails) throws Exception{
 		System.out.println("Fund:"+transactionDetails.getFromAccount());
 		if(fundTransferService.checkAccountValidity(transactionDetails.getFromAccount()) && fundTransferService.getAccountStatus(transactionDetails.getFromAccount())) {
-			Transaction transaction =  fundTransferService.sendAmount(transactionDetails.getFromAccount(), transactionDetails.getToAccount(), transactionDetails.getAmount(),transactionDetails.getDescription());
-			System.out.println(transaction);
-			return new ResponseMessage("Fund Transfer Successful!", 201);
+			return fundTransferService.sendAmount(transactionDetails.getFromAccount(), transactionDetails.getToAccount(), transactionDetails.getAmount(),
+					transactionDetails.getDescription()); 
 		}
-		throw new Exception("Account invalid or deactivated!");
+		return new ResponseMessage("Account invalid or deactivated!",400);
 	}
 	
 	@GetMapping(path="/history/{fromAccountId}")

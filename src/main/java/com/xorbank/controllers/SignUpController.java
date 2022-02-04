@@ -45,11 +45,11 @@ public class SignUpController {
 				String site_url = ConstantMessages.getSiteurl();
 
 				if (signupService.saveUser(user)) {
-					signupService.sendVerificationEmail(user, site_url);
-					return new ResponseMessage("Password Reset Successful!", 201);
+					//signupService.sendVerificationEmail(user, site_url);
+					return new ResponseMessage("Registration Successful!", 201);
 					
 				} else {
-					return new ResponseMessage("Password Reset Unsuccessful!", 400);
+					return new ResponseMessage("Registration Unsuccessful!", 400);
 				}
 
 			} else {

@@ -65,11 +65,11 @@ public class ForgotPasswordController {
 		String password = fCred.getNewPassword();
 
 		if (resetPasswordService.getByResetPasswordToken(token) == null) {
-			throw new Exception("password Reset Successful");
+			return new ResponseMessage("Password Reset Unuccessful",201);
 
 		} else {
 			resetPasswordService.updatePassword(resetPasswordService.getByResetPasswordToken(token), password);
-			return new ResponseMessage("Account Created Successfully!", 201);
+			return new ResponseMessage("Password Reset Successfully!", 400);
 		}
 
 	}

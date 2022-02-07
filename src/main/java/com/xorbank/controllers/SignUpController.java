@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.xorbank.ConstantMessages;
 import com.xorbank.exceptions.ResponseMessage;
+import com.xorbank.models.EmailVerificationCred;
 import com.xorbank.models.User;
 import com.xorbank.services.impl.AdminServiceImpl;
 import com.xorbank.services.impl.SignUpServiceImpl;
@@ -63,13 +64,13 @@ public class SignUpController {
 				return new ResponseMessage("Duplicate Mobile Number!", 400);
 
 			}
-		} else
+		} else                                                                                         
 			return new ResponseMessage("Duplicate Email!", 400);
 	}
 
-	@GetMapping("/verify/{token}")
-	public ResponseMessage verifyUser(@PathVariable("token") String token,@ModelAttribute("token") String token1) {
-		if (signupService.verify(token)) {
+	@PostMapping("/verify")
+	public ResponseMessage verifyUser(@RequestBody EmailVerificationCred cred) {
+		if (signupService.verify(cred.getEmailVerificationCode())) {
 			return new ResponseMessage("verification successful", 201);
 		} else {
 			return new ResponseMessage("verification failed", 400);

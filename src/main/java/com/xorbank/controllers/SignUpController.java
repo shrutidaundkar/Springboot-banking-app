@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -65,9 +66,9 @@ public class SignUpController {
 			return new ResponseMessage("Duplicate Email!", 400);
 	}
 
-	@PostMapping("/verify")
-	public ResponseMessage verifyUser(@RequestBody User user) {
-		if (signupService.verify(user.getEmailVerificationCode())) {
+	@GetMapping("/verify/{token}")
+	public ResponseMessage verifyUser(@PathVariable("token") String token) {
+		if (signupService.verify(token)) {
 			return new ResponseMessage("verification successful", 201);
 		} else {
 			return new ResponseMessage("verification failed", 400);

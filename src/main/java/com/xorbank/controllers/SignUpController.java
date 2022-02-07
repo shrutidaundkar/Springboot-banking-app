@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -69,7 +70,11 @@ public class SignUpController {
 	@PostMapping("/verify")
 	public ResponseMessage verifyUser(@RequestBody EmailVerificationCred cred) {
 		if (signupService.verify(cred.getEmailVerificationCode())) {
-			return new ResponseMessage("verification successful", 201);
+
+	/*@GetMapping("/verify/{token}")
+	public ResponseMessage verifyUser(@PathVariable("token") String token) {
+		if (signupService.verify(token)) {
+	*/		return new ResponseMessage("verification successful", 201);
 		} else {
 			return new ResponseMessage("verification failed", 400);
 		}

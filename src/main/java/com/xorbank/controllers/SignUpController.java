@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,6 +31,9 @@ public class SignUpController {
 
 	@Autowired
 	private AdminServiceImpl adminService;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@PostMapping("/save")
 	@Transactional 
@@ -43,9 +47,11 @@ public class SignUpController {
 				user.setEmailVerificationCode(randomCode);
 				user.setEmailverified(false);
 				String site_url = ConstantMessages.getSiteurl();
+				String encodedPassword = passwordEncoder.encode(user.getPassword());
+				user.setPassword(encodedPassword);
 
 				if (signupService.saveUser(user)) {
-					//signupService.sendVerificationEmail(user, site_url);
+					signupService.sendVerificationEmail(user, site_url);
 					return new ResponseMessage("Registration Successful!", 201);
 					
 				} else {

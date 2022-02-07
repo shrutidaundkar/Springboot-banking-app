@@ -1,6 +1,7 @@
 package com.xorbank.services.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.xorbank.ConstantMessages;
@@ -15,16 +16,19 @@ public class LoginServiceImpl implements LoginService{
 
 	@Autowired
 	private UserRepository repo;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	public User findOneByEmailAndPassword(LoginCred login)throws UserNotFoundException	{
 		
-		User find_user_by_email = repo.findByEmail(login.getEmail());
-		User user = repo.findOneByEmailAndPassword(login.getEmail(), login.getPassword());
-
-		if (find_user_by_email == null)
-			throw new UserNotFoundException(ConstantMessages.getEmailNotRegisteredMessage());
+		User user = repo.findByEmail(login.getEmail());
 
 		if (user == null)
+			throw new UserNotFoundException(ConstantMessages.getEmailNotRegisteredMessage());
+
+		boolean iscorrect = passwordEncoder.matches(login.getPassword(), user.getPassword());
+		if (iscorrect == false)
 			throw new UserNotFoundException(ConstantMessages.getPasswordincorrectmessage());
 		else
 			return user;

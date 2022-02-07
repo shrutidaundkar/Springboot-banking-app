@@ -37,4 +37,9 @@ public class ResetPasswordService {
         user.setResetPasswordToken(null);
         repo.save(user);
     }
+    
+    public User findByEmail(String email) {
+		return repo.findByEmail(email);
+    	
+    }
 }

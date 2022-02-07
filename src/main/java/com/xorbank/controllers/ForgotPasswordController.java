@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.xorbank.exceptions.ResponseMessage;
 import com.xorbank.exceptions.UserNotFoundException;
 import com.xorbank.models.ForgotCred;
+import com.xorbank.models.User;
 import com.xorbank.services.impl.ResetPasswordService;
 import net.bytebuddy.utility.RandomString;
 
@@ -32,11 +33,16 @@ public class ForgotPasswordController {
 		String email = fCred.getEmail();
 		String token = RandomString.make(10);
 
-		resetPasswordService.updateResetPasswordToken(token, email);
-		String resetPasswordLink = "http://localhost:4200/reset-password/" + token;
-		System.out.println("Email : " + resetPasswordLink);
-		sendEmail(email, resetPasswordLink);
-		return new ResponseMessage("Password Reset Successful!",201);
+		User user=resetPasswordService.findByEmail(email);
+		if(user == null) {
+			return new ResponseMessage("User does not exist with this Email",400);
+		}else {
+			resetPasswordService.updateResetPasswordToken(token, email);
+			String resetPasswordLink = "http://localhost:4200/reset-password/" + token;
+			System.out.println("Email : " + resetPasswordLink);
+			sendEmail(email, resetPasswordLink);
+			return new ResponseMessage("Reset Password Link send on Registered Email",201);
+		}
 
 	}
 
@@ -65,11 +71,11 @@ public class ForgotPasswordController {
 		String password = fCred.getNewPassword();
 
 		if (resetPasswordService.getByResetPasswordToken(token) == null) {
-			return new ResponseMessage("Password Reset Unuccessful",201);
+			return new ResponseMessage("Password Reset Unuccessful",400);
 
 		} else {
 			resetPasswordService.updatePassword(resetPasswordService.getByResetPasswordToken(token), password);
-			return new ResponseMessage("Password Reset Successfully!", 400);
+			return new ResponseMessage("Password Reset Successfully", 201);
 		}
 
 	}

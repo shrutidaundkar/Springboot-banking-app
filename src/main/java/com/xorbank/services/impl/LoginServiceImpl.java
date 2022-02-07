@@ -20,7 +20,7 @@ public class LoginServiceImpl implements LoginService{
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-	public User findOneByEmailAndPassword(LoginCred login)throws UserNotFoundException	{
+	public User findByEmail(LoginCred login)throws UserNotFoundException	{
 		
 		User user = repo.findByEmail(login.getEmail());
 

@@ -9,6 +9,6 @@ import com.xorbank.models.User;
 @Service
 public interface LoginService {
 
-	public User findOneByEmailAndPassword(LoginCred login) throws UserNotFoundException;
+	public User findByEmail(LoginCred login) throws UserNotFoundException;
 
 }

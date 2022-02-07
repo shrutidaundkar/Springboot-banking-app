@@ -23,8 +23,8 @@ public class LoginController {
 
 	
 	@PostMapping("/login")
-	public ResponseMessage findOneByEmailAndPassword( @RequestBody LoginCred login) throws UserNotFoundException,Exception{
-		User user=loginService.findOneByEmailAndPassword(login);
+	public ResponseMessage findByEmail( @RequestBody LoginCred login) throws UserNotFoundException,Exception{
+		User user=loginService.findByEmail(login);
 		if(user==null) {
 			return new ResponseMessage("Invalid Email or Password",400);
 		}else {

@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -67,7 +68,7 @@ public class SignUpController {
 	}
 
 	@GetMapping("/verify/{token}")
-	public ResponseMessage verifyUser(@PathVariable("token") String token) {
+	public ResponseMessage verifyUser(@PathVariable("token") String token,@ModelAttribute("token") String token1) {
 		if (signupService.verify(token)) {
 			return new ResponseMessage("verification successful", 201);
 		} else {
@@ -75,6 +76,8 @@ public class SignUpController {
 		}
 	}
 
+	@ModelAttribute("token")
+	
 	@GetMapping("/all-users")
 	public ResponseEntity<Iterable<User>> getAllUsers() {
 		return ResponseEntity.ok().body(adminService.getAllUsers());

@@ -1,6 +1,8 @@
 package com.xorbank.services.impl;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -86,14 +88,14 @@ public class FundTransferServiceImpl implements FundTransferService {
 
 	@Override
 	public List<Transaction> getAllTransactionsFromAccount(int accountId) {
-		System.out.println("--------------------------------------");
-		for(Transaction t:transactionRepository.findTransactionByFromAccount(accountId)) {
-			System.out.println(t);
-		}
+		List<Transaction> transactionList = new ArrayList<Transaction>();
+		transactionList.addAll(transactionRepository.findTransactionByFromAccount(accountId));
+		transactionList.addAll(transactionRepository.findTransactionByToAccount(accountId));
 		
-		System.out.println("--------------------------------------");
-		return transactionRepository.findTransactionByFromAccount(accountId);
+		Collections.sort(transactionList);
+		return transactionList;
 	}
+
 
 	
 

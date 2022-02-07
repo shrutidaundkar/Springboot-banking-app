@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="transactiondata")
-public class Transaction implements Serializable{				
+public class Transaction implements Serializable, Comparable<Transaction>{				
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -115,7 +115,11 @@ public class Transaction implements Serializable{
 				+ transactionDate + ", description=" + description + "]";
 	}
 
-	
+	@Override
+	public int compareTo(Transaction o) {
+		
+		return this.transactionDate.compareTo(o.transactionDate);
+	}
 
 	
 }

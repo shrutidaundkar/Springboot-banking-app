@@ -10,9 +10,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.xorbank.ConstantMessages;
 import com.xorbank.exceptions.ResponseMessage;
@@ -52,7 +55,7 @@ public class SignUpController {
 
 				if (signupService.saveUser(user)) {
 					signupService.sendVerificationEmail(user, site_url);
-					return new ResponseMessage("Registration Successful!", 201);
+					return new ResponseMessage("Registration Successful, Verify Your Email", 201);
 					
 				} else {
 					return new ResponseMessage("Registration Unsuccessful!", 400);
@@ -71,7 +74,7 @@ public class SignUpController {
 		if (signupService.verify(user.getEmailVerificationCode())) {
 			return new ResponseMessage("verification successful", 201); 
 		} else {
-			return new ResponseMessage("verification failed", 201);
+			return new ResponseMessage("verification failed", 400);
 		}
 	}
 

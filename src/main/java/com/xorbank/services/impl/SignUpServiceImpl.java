@@ -72,7 +72,7 @@ public class SignUpServiceImpl implements SignUpService {
 		helper.setSubject(subject);
 
 		content = content.replace("[[name]]", user.getFirstname());
-		String verifyURL = siteURL + "verify/" + user.getEmailVerificationCode();
+		String verifyURL = siteURL + "verify/"+ user.getEmailVerificationCode();
 
 		content = content.replace("[[URL]]", verifyURL);
 

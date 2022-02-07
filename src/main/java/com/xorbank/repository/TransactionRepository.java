@@ -8,5 +8,5 @@ import com.xorbank.models.Transaction;
 public interface TransactionRepository extends JpaRepository<Transaction, Integer>{
 	
 	List<Transaction> findTransactionByFromAccount(int accountId);
-	
+	List<Transaction> findTransactionByToAccount(int accountId);
 }

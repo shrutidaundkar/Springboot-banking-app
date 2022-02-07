@@ -3,6 +3,7 @@ package com.xorbank.services.impl;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.xorbank.exceptions.UserNotFoundException;
@@ -15,6 +16,10 @@ public class ResetPasswordService {
 
     @Autowired
     private UserRepository repo;
+    
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
      
  
     public void updateResetPasswordToken(String resetPasswordToken, String email) throws UserNotFoundException {
@@ -32,8 +37,8 @@ public class ResetPasswordService {
     }
      
     public void updatePassword(User user, String newPassword) {
-        user.setPassword(newPassword);
-         
+		String encodedPassword = passwordEncoder.encode(newPassword);
+        user.setPassword(encodedPassword); 
         user.setResetPasswordToken(null);
         repo.save(user);
     }

@@ -1,9 +1,10 @@
-package com.xorbank.models;
+package com.xorbank.request;
 
-public class EmailVerificationCred {
+public class EmailVerificationRequest {
 
 	private String email;
 	private String emailVerificationCode;
+	
 	public String getEmail() {
 		return email;
 	}
@@ -16,8 +17,8 @@ public class EmailVerificationCred {
 	public void setEmailVerificationCode(String emailVerificationCode) {
 		this.emailVerificationCode = emailVerificationCode;
 	}
-	public EmailVerificationCred() {}
-	public EmailVerificationCred(String email, String emailVerificationCode) {
+	public EmailVerificationRequest() {}
+	public EmailVerificationRequest(String email, String emailVerificationCode) {
 		super();
 		this.email = email;
 		this.emailVerificationCode = emailVerificationCode;

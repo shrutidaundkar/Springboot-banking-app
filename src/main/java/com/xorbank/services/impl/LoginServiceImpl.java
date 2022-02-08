@@ -6,9 +6,9 @@ import org.springframework.stereotype.Service;
 
 import com.xorbank.ConstantMessages;
 import com.xorbank.exceptions.UserNotFoundException;
-import com.xorbank.models.LoginCred;
-import com.xorbank.models.User;
+import com.xorbank.model.User;
 import com.xorbank.repository.UserRepository;
+import com.xorbank.request.LoginRequest;
 import com.xorbank.services.LoginService;
 
 @Service
@@ -20,7 +20,7 @@ public class LoginServiceImpl implements LoginService{
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-	public User findByEmail(LoginCred login)throws UserNotFoundException	{
+	public User findByEmail(LoginRequest login)throws UserNotFoundException	{
 		
 		User user = repo.findByEmail(login.getEmail());
 		

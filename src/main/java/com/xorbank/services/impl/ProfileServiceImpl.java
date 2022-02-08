@@ -5,7 +5,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.xorbank.models.User;
+import com.xorbank.model.User;
 import com.xorbank.repository.UserRepository;
 import com.xorbank.services.ProfileService;
 
@@ -20,9 +20,9 @@ public class ProfileServiceImpl implements ProfileService{
 		this.userRepo = userRepo;
 	}
 
-	public User findByUserId(Integer userid) {
+	public User findByUserId(Integer userId) {
 		
-		return userRepo.findByuserid(userid);
+		return userRepo.findByUserId(userId);
 	}
 	
 	public User updateUser(User user)

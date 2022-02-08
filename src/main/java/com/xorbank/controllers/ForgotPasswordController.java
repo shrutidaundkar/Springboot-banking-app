@@ -10,11 +10,12 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import com.xorbank.exceptions.ResponseMessage;
+
 import com.xorbank.exceptions.UserNotFoundException;
-import com.xorbank.models.ForgotCred;
-import com.xorbank.models.User;
-import com.xorbank.services.impl.ResetPasswordService;
+import com.xorbank.model.User;
+import com.xorbank.request.ForgotPasswordRequest;
+import com.xorbank.response.MessageResponse;
+import com.xorbank.services.impl.ResetPasswordServiceImpl;
 import net.bytebuddy.utility.RandomString;
 
 
@@ -25,23 +26,23 @@ public class ForgotPasswordController {
 	private JavaMailSender mailSender;
 
 	@Autowired
-	private ResetPasswordService resetPasswordService;
+	private ResetPasswordServiceImpl resetPasswordService;
 
 	@PostMapping("/forgot-password")
-	public ResponseMessage processForgotPassword(@RequestBody ForgotCred fCred) 
+	public MessageResponse processForgotPassword(@RequestBody ForgotPasswordRequest forgotPasswordRequest) 
 			throws UnsupportedEncodingException, MessagingException, UserNotFoundException {
-		String email = fCred.getEmail();
+		String email = forgotPasswordRequest.getEmail();
 		String token = RandomString.make(10);
 
 		User user=resetPasswordService.findByEmail(email);
 		if(user == null) {
-			return new ResponseMessage("User does not exist with this Email",400);
+			return new MessageResponse("User does not exist with this Email",400);
 		}else {
 			resetPasswordService.updateResetPasswordToken(token, email);
 			String resetPasswordLink = "http://localhost:4200/reset-password/" + token;
 			System.out.println("Email : " + resetPasswordLink);
 			sendEmail(email, resetPasswordLink);
-			return new ResponseMessage("Reset Password Link send on Registered Email",201);
+			return new MessageResponse("Reset Password Link send on Registered Email",201);
 		}
 
 	}
@@ -66,16 +67,16 @@ public class ForgotPasswordController {
 	}
 
 	@PostMapping("/reset-password")
-	public ResponseMessage processResetPassword(@RequestBody ForgotCred fCred) throws Exception {
-		String token = fCred.getToken();
-		String password = fCred.getNewPassword();
+	public MessageResponse processResetPassword(@RequestBody ForgotPasswordRequest forgotPasswordRequest) throws Exception {
+		String token = forgotPasswordRequest.getToken();
+		String password = forgotPasswordRequest.getNewPassword();
 
 		if (resetPasswordService.getByResetPasswordToken(token) == null) {
-			return new ResponseMessage("Password Reset Unuccessful",400);
+			return new MessageResponse("Password Reset Unuccessful",400);
 
 		} else {
 			resetPasswordService.updatePassword(resetPasswordService.getByResetPasswordToken(token), password);
-			return new ResponseMessage("Password Reset Successfully", 201);
+			return new MessageResponse("Password Reset Successfully", 201);
 		}
 
 	}

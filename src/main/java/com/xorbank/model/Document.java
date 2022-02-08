@@ -1,4 +1,4 @@
-package com.xorbank.models;
+package com.xorbank.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

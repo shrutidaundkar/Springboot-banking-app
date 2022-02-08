@@ -2,7 +2,7 @@ package com.xorbank.services;
 
 import java.util.List;
 
-import com.xorbank.models.Account;
+import com.xorbank.model.Account;
 
 
 public interface AccountCreationService {

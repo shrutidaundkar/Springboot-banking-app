@@ -7,12 +7,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.xorbank.exceptions.UserNotFoundException;
-import com.xorbank.models.User;
+import com.xorbank.model.User;
 import com.xorbank.repository.UserRepository;
 
 @Service
 @Transactional
-public class ResetPasswordService {
+public class ResetPasswordServiceImpl {
 
     @Autowired
     private UserRepository repo;

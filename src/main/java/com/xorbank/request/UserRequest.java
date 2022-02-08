@@ -1,12 +1,12 @@
-package com.xorbank.models;
+package com.xorbank.request;
 
-public class UserBody {
+public class UserRequest {
 
 	private int userid;
 	private int accountId;
 	
-	public UserBody() {}
-	public UserBody(int userId,int accountId) {
+	public UserRequest() {}
+	public UserRequest(int userId,int accountId) {
 		this.userid =userId;
 		this.accountId =accountId;
 	}

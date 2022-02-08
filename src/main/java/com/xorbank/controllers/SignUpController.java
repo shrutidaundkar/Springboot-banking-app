@@ -10,16 +10,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.xorbank.ConstantMessages;
-import com.xorbank.exceptions.ResponseMessage;
-import com.xorbank.models.EmailVerificationCred;
-import com.xorbank.models.User;
+import com.xorbank.model.User;
+import com.xorbank.request.EmailVerificationRequest;
+import com.xorbank.response.MessageResponse;
 import com.xorbank.services.impl.AdminServiceImpl;
 import com.xorbank.services.impl.SignUpServiceImpl;
 import net.bytebuddy.utility.RandomString;
@@ -40,7 +38,7 @@ public class SignUpController {
 
 	@PostMapping("/save")
 	@Transactional
-	public ResponseMessage signUpUser(@RequestBody User user) throws UnsupportedEncodingException, MessagingException {
+	public MessageResponse signUpUser(@RequestBody User user) throws UnsupportedEncodingException, MessagingException {
 
 		if (!signupService.checkEmail(user.getEmail())) {
 			if (!signupService.checkMobileNumber(user.getMobile())) {
@@ -54,30 +52,28 @@ public class SignUpController {
 
 				if (signupService.saveUser(user)) {
 					signupService.sendVerificationEmail(user, site_url);
-					return new ResponseMessage("Registration Successful, Verify Your Email", 201);
+					return new MessageResponse("Registration Successful, Verify Your Email", 201);
 
 				} else {
-					return new ResponseMessage("Registration Unsuccessful!", 400);
+					return new MessageResponse("Registration Unsuccessful!", 400);
 				}
 
 			} else {
-				return new ResponseMessage("Duplicate Mobile Number!", 400);
+				return new MessageResponse("Duplicate Mobile Number!", 400);
 
 			}
 		} else                                                                                         
-			return new ResponseMessage("Duplicate Email!", 400);
+			return new MessageResponse("Duplicate Email!", 400);
 	}
 
 	@PostMapping("/verify")
-	public ResponseMessage verifyUser(@RequestBody EmailVerificationCred cred) {
-		if (signupService.verify(cred.getEmailVerificationCode())) {
-			return new ResponseMessage("verification successful", 201);
+	public MessageResponse verifyUser(@RequestBody EmailVerificationRequest emailVerificationRequest) {
+		if (signupService.verify(emailVerificationRequest.getEmailVerificationCode())) {
+			return new MessageResponse("verification successful", 201);
 		} else {
-			return new ResponseMessage("verification failed", 400);
+			return new MessageResponse("verification failed", 400);
 		}
 	}
-
-	@ModelAttribute("token")
 	
 	@GetMapping("/all-users")
 	public ResponseEntity<Iterable<User>> getAllUsers() {

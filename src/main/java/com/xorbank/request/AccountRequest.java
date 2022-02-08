@@ -1,12 +1,13 @@
-package com.xorbank.models;
+package com.xorbank.request;
 
-public class AccountCred {
+public class AccountRequest {
 
-	private String accountType;
 	private int userId;	
+	private String accountType;
 	private Double balance;
-	public AccountCred() {}
-	public AccountCred(String accountType, int userId, Double balance) {
+	
+	public AccountRequest() {}
+	public AccountRequest(String accountType, int userId, Double balance) {
 		super();
 		this.accountType = accountType;
 		this.userId = userId;

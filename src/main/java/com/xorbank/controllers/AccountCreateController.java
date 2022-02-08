@@ -4,8 +4,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.xorbank.exceptions.ResponseMessage;
-import com.xorbank.models.Account;
-import com.xorbank.models.AccountCred;
-import com.xorbank.models.User;
-import com.xorbank.models.UserBody;
+import com.xorbank.model.Account;
+import com.xorbank.model.User;
+import com.xorbank.request.AccountRequest;
+import com.xorbank.request.UserRequest;
+import com.xorbank.response.MessageResponse;
 import com.xorbank.services.AccountCreationService;
 import com.xorbank.services.ProfileService;
 import com.xorbank.services.SignUpService;
@@ -44,34 +42,34 @@ public class AccountCreateController {
 	}
 
 	@PostMapping(path = "/account")
-	public ResponseMessage signUp(@RequestBody AccountCred accountCred) throws Exception {
+	public MessageResponse signUp(@RequestBody AccountRequest accountRequest) throws Exception {
 
-		User user = signupService.getUser(accountCred.getUserId());
+		User user = signupService.getUser(accountRequest.getUserId());
 		Account account = new Account();
-		account.setAccountType(accountCred.getAccountType());
+		account.setAccountType(accountRequest.getAccountType());
 		account.setUser(user);
-		account.setBalance(accountCred.getBalance());
+		account.setBalance(accountRequest.getBalance());
 		account.setDateCreated(LocalDateTime.now().toString());
 
 		if(accountCreationService.createAccount(account)) {
-			return new ResponseMessage("Account Created Successfully!", 201);
+			return new MessageResponse("Account Created Successfully!", 201);
 		}else {
-			return new ResponseMessage("Account could not be created!",400);
+			return new MessageResponse("Account could not be created!",400);
 		}
 	}
 
-	@GetMapping(path = "all-accounts/{userid}")
-	public List<Account> getAllAccounts(@PathVariable("userid") Integer userId) {
+	@GetMapping(path = "all-accounts/{userId}")
+	public List<Account> getAllAccounts(@PathVariable("userId") Integer userId) {
 		return profileService.findByUserId(userId).getAccounts();
 
 	}
 
 	@PutMapping(path = "account/deactivate")
-	public ResponseMessage deactivateAccount(@RequestBody UserBody user) throws Exception { 
-		Account account = accountCreationService.getAccount(user.getAccountId());
+	public MessageResponse deactivateAccount(@RequestBody UserRequest userRequest) throws Exception { 
+		Account account = accountCreationService.getAccount(userRequest.getAccountId());
 		account.setAccountStatus(false);
 		if (accountCreationService.updateAccount(account) != null)
-			return new ResponseMessage("Account Deactivated", 201);
+			return new MessageResponse("Account Deactivated", 201);
 		else
 			throw new Exception("Error Occured");
 	}

@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.xorbank.exceptions.ResponseMessage;
 import com.xorbank.exceptions.UserNotFoundException;
-import com.xorbank.models.LoginCred;
-import com.xorbank.models.User;
+import com.xorbank.model.User;
+import com.xorbank.request.LoginRequest;
+import com.xorbank.response.MessageResponse;
 import com.xorbank.services.impl.LoginServiceImpl;
 
 @RestController
@@ -23,12 +23,12 @@ public class LoginController {
 
 	
 	@PostMapping("/login")
-	public ResponseMessage findByEmail( @RequestBody LoginCred login) throws UserNotFoundException,Exception{
+	public MessageResponse findByEmail( @RequestBody LoginRequest login) throws UserNotFoundException,Exception{
 		User user=loginService.findByEmail(login);
 		if(user==null) {
-			return new ResponseMessage("Invalid Email or Password",400);
+			return new MessageResponse("Invalid Email or Password",400);
 		}else {
-			return new ResponseMessage("Login Successful",user.getUserid());
+			return new MessageResponse("Login Successful",user.getUserId());
 		}
 	}
 }

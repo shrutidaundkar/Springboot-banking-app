@@ -1,7 +1,7 @@
 package com.xorbank.services;
 
 
-import com.xorbank.models.Account;
+import com.xorbank.model.Account;
 
 
 public interface AdminService {

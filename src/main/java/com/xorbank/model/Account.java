@@ -1,4 +1,4 @@
-package com.xorbank.models;
+package com.xorbank.model;
 
 import java.io.Serializable;
 import java.util.Collection;

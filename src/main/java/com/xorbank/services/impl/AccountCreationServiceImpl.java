@@ -4,7 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.xorbank.models.Account;
+
+import com.xorbank.model.Account;
 import com.xorbank.repository.AccountRepository;
 import com.xorbank.services.AccountCreationService;
 
@@ -39,14 +40,12 @@ public class AccountCreationServiceImpl implements AccountCreationService{
 
 	@Override
 	public Account getAccount(int accountId) {
-		// TODO Auto-generated method stub
 		System.out.println(repository.getById(accountId));
 		return repository.getById(accountId);
 	}
 
 	@Override
 	public Account updateAccount(Account account) {
-		// TODO Auto-generated method stub
 		return repository.save(account);
 	}
 	

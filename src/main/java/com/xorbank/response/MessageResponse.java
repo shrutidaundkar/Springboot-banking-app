@@ -1,15 +1,15 @@
-package com.xorbank.exceptions;
+package com.xorbank.response;
 
-public class ResponseMessage {
+public class MessageResponse {
 
 	private String message;
 	private int statusCode;
 	
-	public ResponseMessage() {
+	public MessageResponse() {
 		super();
 		
 	}
-	public ResponseMessage(String message, int statusCode) {
+	public MessageResponse(String message, int statusCode) {
 		super();
 		this.message = message;
 		this.statusCode = statusCode;

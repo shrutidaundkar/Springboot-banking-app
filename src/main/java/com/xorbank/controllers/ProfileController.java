@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.xorbank.models.User;
+import com.xorbank.model.User;
 import com.xorbank.services.ProfileService;
 
 @RestController
@@ -22,10 +22,10 @@ public class ProfileController {
 	@Autowired
 	private ProfileService profileService;
 	
-	@GetMapping("/profile/{userid}")
-	public ResponseEntity<User> getUserByEmail(@PathVariable("userid") Integer userid)
+	@GetMapping("/profile/{userId}")
+	public ResponseEntity<User> getUserByEmail(@PathVariable("userId") Integer userId)
 	{
-		User user = profileService.findByUserId(userid);
+		User user = profileService.findByUserId(userId);
 		return new ResponseEntity<>(user, HttpStatus.OK);
 	}
 	@PutMapping("/profile/update")

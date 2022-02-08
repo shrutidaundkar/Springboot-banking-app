@@ -1,4 +1,4 @@
-package com.xorbank.models;
+package com.xorbank.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int userid;
+	private int userId;
 	@Column
 	private String firstname;
 	@Column
@@ -42,6 +42,8 @@ public class User {
 	private String emailVerificationCode;
 
 	private boolean emailVerified;
+	
+	private String otp;
 
 	@OneToMany(mappedBy = "user")
 	@JsonManagedReference
@@ -53,12 +55,13 @@ public class User {
 
 	public User() {
 	}
+
 	
-	public User(int userid, String firstname, String lastname, String email, String mobile, String dateofbirth,
+	public User(int userId, String firstname, String lastname, String email, String mobile, String dateofbirth,
 			String age, String gender, String password, String resetPasswordToken, String emailVerificationCode,
-			boolean emailVerified, List<Account> accounts, Document document) {
+			boolean emailVerified, String otp, List<Account> accounts, Document document) {
 		super();
-		this.userid = userid;
+		this.userId = userId;
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.email = email;
@@ -70,11 +73,14 @@ public class User {
 		this.resetPasswordToken = resetPasswordToken;
 		this.emailVerificationCode = emailVerificationCode;
 		this.emailVerified = emailVerified;
+		this.otp = otp;
 		this.accounts = accounts;
 		this.document = document;
 	}
 
-	
+
+
+
 	public Document getDocument() {
 		return document;
 	}
@@ -99,12 +105,12 @@ public class User {
 		this.accounts = accounts;
 	}
 
-	public int getUserid() {
-		return userid;
+	public int getUserId() {
+		return userId;
 	}
 
-	public void setUserid(int userid) {
-		this.userid = userid;
+	public void setUserid(int userId) {
+		this.userId = userId;
 	}
 
 	public String getFirstname() {
@@ -187,14 +193,24 @@ public class User {
 		this.emailVerified = emailVerified;
 	}
 
-	@Override
-	public String toString() {
-		return "User [userid=" + userid + ", firstname=" + firstname + ", lastname=" + lastname + ", email=" + email
-				+ ", mobile=" + mobile + ", dateofbirth=" + dateofbirth + ", age=" + age + ", gender=" + gender
-				+ ", password=" + password + ", resetPasswordToken=" + resetPasswordToken + ", emailVerificationCode="
-				+ emailVerificationCode + ", emailVerified=" + emailVerified + ", accounts=" + accounts + "]";
+
+	public String getOtp() {
+		return otp;
 	}
 
-	
+
+	public void setOtp(String otp) {
+		this.otp = otp;
+	}
+
+
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", firstname=" + firstname + ", lastname=" + lastname + ", email=" + email
+				+ ", mobile=" + mobile + ", dateofbirth=" + dateofbirth + ", age=" + age + ", gender=" + gender
+				+ ", password=" + password + ", resetPasswordToken=" + resetPasswordToken + ", emailVerificationCode="
+				+ emailVerificationCode + ", emailVerified=" + emailVerified + ", otp=" + otp + ", accounts=" + accounts
+			 + "]";
+	}
 
 }

@@ -2,7 +2,7 @@ package com.xorbank.services;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.xorbank.models.Document;
+import com.xorbank.model.Document;
 
 public interface DocStorageService {
 	

@@ -4,14 +4,18 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.xorbank.exceptions.ResponseMessage;
-import com.xorbank.models.Account;
-import com.xorbank.models.Transaction;
+import com.xorbank.exceptions.UserNotFoundException;
+import com.xorbank.model.Account;
+import com.xorbank.model.Transaction;
+import com.xorbank.model.User;
 import com.xorbank.repository.AccountRepository;
 import com.xorbank.repository.TransactionRepository;
+import com.xorbank.repository.UserRepository;
+import com.xorbank.response.MessageResponse;
 import com.xorbank.services.FundTransferService;
 
 @Service
@@ -22,6 +26,10 @@ public class FundTransferServiceImpl implements FundTransferService {
 
 	@Autowired
 	private AccountRepository accountRepository;
+	
+	@Autowired
+	private UserRepository userRepository;
+
 
 	public FundTransferServiceImpl() {
 	}
@@ -44,7 +52,7 @@ public class FundTransferServiceImpl implements FundTransferService {
 	}
 
 	@Override
-	public ResponseMessage sendAmount(int fromAccount, int toAccount, double amount,String description) throws Exception {
+	public MessageResponse sendAmount(int fromAccount, int toAccount, double amount,String description) throws Exception {
 		Transaction transaction = new Transaction();
 		transaction.setFromAccount(fromAccount);
 		transaction.setToAccount(toAccount);
@@ -65,24 +73,24 @@ public class FundTransferServiceImpl implements FundTransferService {
 					transaction.setTransactionStatus("SUCCESS");
 					transactionRepository.save(transaction);	
 					getAllTransactionsFromAccount(fromAccount);
-					return new ResponseMessage("Transaction Successful",201);
+					return new MessageResponse("Transaction Successful",201);
 					
 				} else {
 					transaction.setTransactionStatus("FAILED");
 					transactionRepository.save(transaction);
-					return new ResponseMessage("Insufficient Balance",400);
+					return new MessageResponse("Insufficient Balance",400);
 				}
 
 			} else {
 				transaction.setTransactionStatus("FAILED");
 				transactionRepository.save(transaction);
-				return new ResponseMessage("Account Deactivated or Account does not exist",400);
+				return new MessageResponse("Account Deactivated or Account does not exist",400);
 			}
 
 		} else {
 			transaction.setTransactionStatus("FAILED");
 			transactionRepository.save(transaction);
-			return new ResponseMessage("Sender and receiver account cannot be same!",400);
+			return new MessageResponse("Sender and receiver account cannot be same!",400);
 		}
 	}
 
@@ -96,7 +104,31 @@ public class FundTransferServiceImpl implements FundTransferService {
 		return transactionList;
 	}
 
-
+	@Override
+	public User getUser(int userId) {
+		return userRepository.findByUserId(userId);
+	}
 	
+	@Override
+	public void updateOTP(String otp, String email) throws UserNotFoundException {
+        User user = userRepository.findByEmail(email);
+        if (user != null) {
+            user.setOtp(otp);
+            userRepository.save(user);
+        } else {
+            throw new UserNotFoundException("Could not find any user with the email " + email);
+        }
+    }
 
+	@Override
+	public boolean checkOTP(Integer userId, String otp) {
+		User user = userRepository.findByUserId(userId);
+		System.out.println("user : "+user);
+		if(user.getOtp()==otp) {
+			user.setOtp(null);
+			userRepository.save(user);
+			return true;
+		}
+		return false;
+	}
 }

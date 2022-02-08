@@ -11,7 +11,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import com.xorbank.ConstantMessages;
-import com.xorbank.models.User;
+import com.xorbank.model.User;
 import com.xorbank.repository.UserRepository;
 import com.xorbank.services.SignUpService;
 

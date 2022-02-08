@@ -1,6 +1,6 @@
-package com.xorbank.models;
+package com.xorbank.request;
 
-public class ForgotCred {
+public class ForgotPasswordRequest {
 
 	private String email;
 	private String token;
@@ -8,9 +8,9 @@ public class ForgotCred {
 	private String confirmPassword;
 	
 	
-	public ForgotCred() {}
+	public ForgotPasswordRequest() {}
 	
-	public ForgotCred(String email, String token, String newPassword, String confirmPassword) {
+	public ForgotPasswordRequest(String email, String token, String newPassword, String confirmPassword) {
 		super();
 		this.email = email;
 		this.token = token;

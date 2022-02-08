@@ -1,15 +1,15 @@
-package com.xorbank.models;
+package com.xorbank.request;
 
-public class LoginCred {
+public class LoginRequest {
 
 	private String email;
 	private String password;
 	
-	public LoginCred() {
+	public LoginRequest() {
 		
 	}
 	
-	public LoginCred(String email, String password) {
+	public LoginRequest(String email, String password) {
 		super();
 		this.email = email;
 		this.password = password;

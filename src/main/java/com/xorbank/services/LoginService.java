@@ -3,12 +3,12 @@ package com.xorbank.services;
 import org.springframework.stereotype.Service;
 
 import com.xorbank.exceptions.UserNotFoundException;
-import com.xorbank.models.LoginCred;
-import com.xorbank.models.User;
+import com.xorbank.model.User;
+import com.xorbank.request.LoginRequest;
 
 @Service
 public interface LoginService {
 
-	public User findByEmail(LoginCred login) throws UserNotFoundException;
+	public User findByEmail(LoginRequest login) throws UserNotFoundException;
 
 }

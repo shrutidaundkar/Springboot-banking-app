@@ -2,7 +2,6 @@ package com.xorbank.controllers;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
-
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
@@ -64,8 +63,10 @@ public class FundTransferController {
 	
 	@GetMapping(path="/otp/{userId}")
 	public MessageResponse sendOTP(@PathVariable("userId") Integer userId) throws UnsupportedEncodingException, MessagingException, UserNotFoundException{
-		String otp = RandomString.make(5);
+		int min = 10000;
+	    int max = 99999;
 
+	    int otp = (int)Math.floor(Math.random()*(max-min+1)+min);
 		User user=fundTransferService.getUser(userId);
 		if(user == null) {
 			return new MessageResponse("User does not exist with this Email",400);
@@ -76,7 +77,7 @@ public class FundTransferController {
 		}
 	}
 	
-	public void sendMail(String email,String otp) throws UnsupportedEncodingException, MessagingException {
+	public void sendMail(String email,int otp) throws UnsupportedEncodingException, MessagingException {
 		String toAddress = email;
 		String subject = "Transaction OTP";
 
@@ -87,7 +88,7 @@ public class FundTransferController {
 		helper.setTo(toAddress);
 		helper.setSubject(subject);
 
-		helper.setText("Your OTP for Fund Transfer is "+otp, true);
+		helper.setText("Your OTP for Fund Transfer is "+"<b>"+otp+"<b>", true);
 
 		mailSender.send(message);
 	}

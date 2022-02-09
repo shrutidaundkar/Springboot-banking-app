@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -18,6 +20,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 public class User {
 
 	@Id
+//	@TableGenerator(name = "User_Gen", table = "User_ID_GEN", pkColumnName = "GEN_NAME", valueColumnName = "GEN_VAL", pkColumnValue = "User_Gen", initialValue = 10000, allocationSize = 1)
+//	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "User_Gen")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int userId;
 	@Column
@@ -40,12 +44,13 @@ public class User {
 	private String resetPasswordToken;
 	@Column
 	private String emailVerificationCode;
+
 	
 	@Column
 	private boolean emailVerified;
 	
 	@Column
-	private String otp;
+	private int otp;
 
 	@OneToMany(mappedBy = "user")
 	@JsonManagedReference
@@ -66,7 +71,11 @@ public class User {
 	
 	public User(int userId, String firstname, String lastname, String email, String mobile, String dateofbirth,
 			String age, String gender, String password, String resetPasswordToken, String emailVerificationCode,
+<<<<<<< HEAD
 			boolean emailVerified, String otp, List<Account> accounts, Document document,LoanAccount loanAccount) {
+=======
+			boolean emailVerified, int otp, List<Account> accounts, Document document) {
+>>>>>>> 4252903c313da781f1c8aca51ec7e38c24a2227a
 		super();
 		this.userId = userId;
 		this.firstname = firstname;
@@ -202,12 +211,12 @@ public class User {
 	}
 
 
-	public String getOtp() {
+	public int getOtp() {
 		return otp;
 	}
 
 
-	public void setOtp(String otp) {
+	public void setOtp(int otp) {
 		this.otp = otp;
 	}
 

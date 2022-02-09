@@ -7,14 +7,14 @@ public class TransactionRequest {
 	private int amount;
     private String description;
     private int fromAccount;
-    private String otp;
+    private int otp;
 	
 	public TransactionRequest() {
 		
 	}
 
 	public TransactionRequest(int userId, int toAccount, int amount, String description, int fromAccount,
-			String otp) {
+			int otp) {
 		super();
 		this.userId = userId;
 		this.toAccount = toAccount;
@@ -64,11 +64,11 @@ public class TransactionRequest {
 		this.fromAccount = fromAccount;
 	}
 
-	public String getOtp() {
+	public int getOtp() {
 		return otp;
 	}
 
-	public void setOtp(String otp) {
+	public void setOtp(int otp) {
 		this.otp = otp;
 	}
 

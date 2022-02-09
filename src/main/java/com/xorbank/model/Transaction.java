@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 
 @Entity
 @Table(name="transactiondata")
@@ -16,6 +17,8 @@ public class Transaction implements Serializable, Comparable<Transaction>{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
+//	@TableGenerator(name = "Transaction_Gen", table = "Transaction_ID_GEN", pkColumnName = "GEN_NAME", valueColumnName = "GEN_VAL", pkColumnValue = "Transaction_Gen", initialValue = 10000, allocationSize = 1)
+//	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "Transaction_Gen")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int transactionId;
 	

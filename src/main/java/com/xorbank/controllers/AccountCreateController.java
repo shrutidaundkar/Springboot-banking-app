@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xorbank.model.Account;
+import com.xorbank.model.LoanAccount;
 import com.xorbank.model.User;
 import com.xorbank.request.AccountRequest;
+import com.xorbank.request.LoanAccountRequest;
 import com.xorbank.request.UserRequest;
 import com.xorbank.response.MessageResponse;
 import com.xorbank.services.AccountCreationService;
@@ -58,6 +60,37 @@ public class AccountCreateController {
 		}
 	}
 
+	@PostMapping(path = "/loan-account")
+	public MessageResponse createloanAccount(@RequestBody LoanAccountRequest loanaccountReq) throws Exception {
+		System.out.println("Loan Account"+loanaccountReq);
+		User user = signupService.getUser(loanaccountReq.getUserId());
+		System.out.println("User"+user);
+		Account account=accountCreationService.getAccount(loanaccountReq.getAccountId());
+		System.out.println("Account"+account);
+		LoanAccount loanAccount = new LoanAccount();
+		loanAccount.setUser(user);
+		loanAccount.setAccount(account);
+		loanAccount.setBalance(loanaccountReq.getBalance());
+		loanAccount.setLoanType(loanaccountReq.getLoanType());
+		loanAccount.setTenure(loanaccountReq.getTenure());
+		loanAccount.setMonthlyEMI(loanaccountReq.getMonthlyEMI());
+		System.out.println("Loan Account"+loanAccount);
+		if(accountCreationService.createLoanAccount(loanAccount)) {
+			return new MessageResponse("Loan Account Created Successfully!", 201);
+		}else {
+			return new MessageResponse("Loan Account could not be created!",400);
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	@GetMapping(path = "all-accounts/{userId}")
 	public List<Account> getAllAccounts(@PathVariable("userId") Integer userId) {
 		return profileService.findByUserId(userId).getAccounts();

@@ -9,8 +9,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name="accountdata")
@@ -40,10 +42,17 @@ public class Account implements Serializable{
 
 	private boolean accountStatus;
 	
+	@OneToOne(mappedBy="account")
+	@JsonManagedReference
+	private LoanAccount loanAccount;
+	
+	
+	
+	
 	public Account() {
 		this.accountStatus= true;
 	}
-	public Account(int accountId, String accountType, String dateCreated, Double balance, User user) {
+	public Account(int accountId, String accountType, String dateCreated, Double balance, User user,LoanAccount loanAccount) {
 		super();
 		this.accountId = accountId;
 		this.accountType = accountType;
@@ -51,14 +60,22 @@ public class Account implements Serializable{
 		this.balance = balance;
 		this.user = user;
 		this.accountStatus= true;
+		this.loanAccount=loanAccount;
 	}
-	public Account(String accountType, String dateCreated, Double balance, User user) {
+	public Account(String accountType, String dateCreated, Double balance, User user,LoanAccount loanAccount) {
 		super();
 		this.accountType = accountType;
 		this.dateCreated = dateCreated;
 		this.balance = balance;
 		this.user = user;
 		this.accountStatus= true;
+		this.loanAccount=loanAccount;
+	}
+	public LoanAccount getLoanAccount() {
+		return loanAccount;
+	}
+	public void setLoanAccount(LoanAccount loanAccount) {
+		this.loanAccount = loanAccount;
 	}
 	public int getAccountId() {
 		return accountId;

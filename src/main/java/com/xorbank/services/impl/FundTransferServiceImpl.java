@@ -124,7 +124,7 @@ public class FundTransferServiceImpl implements FundTransferService {
 	public boolean checkOTP(Integer userId, String otp) {
 		User user = userRepository.findByUserId(userId);
 		System.out.println("user : "+user);
-		if(user.getOtp()==otp) {
+		if(otp != null && otp.equals(user.getOtp())) {
 			user.setOtp(null);
 			userRepository.save(user);
 			return true;

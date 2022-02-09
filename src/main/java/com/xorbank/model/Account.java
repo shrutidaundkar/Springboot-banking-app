@@ -10,18 +10,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name="accountdata")
 public class Account implements Serializable{				
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	@Id
+//	@TableGenerator(name = "Account_Gen", table = "Account_ID_GEN", pkColumnName = "GEN_NAME", valueColumnName = "GEN_VAL", pkColumnValue = "Account_Gen", initialValue = 10000, allocationSize = 1)
+//	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "Account_Gen")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int accountId;
 	

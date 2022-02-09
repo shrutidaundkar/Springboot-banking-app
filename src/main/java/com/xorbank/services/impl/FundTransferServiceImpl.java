@@ -110,7 +110,7 @@ public class FundTransferServiceImpl implements FundTransferService {
 	}
 	
 	@Override
-	public void updateOTP(String otp, String email) throws UserNotFoundException {
+	public void updateOTP(int otp, String email) throws UserNotFoundException {
         User user = userRepository.findByEmail(email);
         if (user != null) {
             user.setOtp(otp);
@@ -121,11 +121,10 @@ public class FundTransferServiceImpl implements FundTransferService {
     }
 
 	@Override
-	public boolean checkOTP(Integer userId, String otp) {
+	public boolean checkOTP(Integer userId, int otp) {
 		User user = userRepository.findByUserId(userId);
-		System.out.println("user : "+user);
-		if(user.getOtp()==otp) {
-			user.setOtp(null);
+		if(otp != 0 && otp==user.getOtp()) {
+			user.setOtp(0);
 			userRepository.save(user);
 			return true;
 		}

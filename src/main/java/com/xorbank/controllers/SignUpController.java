@@ -69,9 +69,9 @@ public class SignUpController {
 	@PostMapping("/verify")
 	public MessageResponse verifyUser(@RequestBody EmailVerificationRequest emailVerificationRequest) {
 		if (signupService.verify(emailVerificationRequest.getEmailVerificationCode())) {
-			return new MessageResponse("verification successful", 201);
+			return new MessageResponse("Verification Successful", 201);
 		} else {
-			return new MessageResponse("verification failed", 400);
+			return new MessageResponse("Verification Failed", 400);
 		}
 	}
 	

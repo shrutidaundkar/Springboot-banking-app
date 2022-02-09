@@ -41,7 +41,7 @@ public class SignUpServiceImpl implements SignUpService {
 	}
 
 	public User getUser(Integer userId) {
-		return repo.getById(userId);
+		return repo.findByUserId(userId);
 	}
 
 	@Override

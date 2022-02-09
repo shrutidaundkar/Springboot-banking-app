@@ -21,7 +21,7 @@ public class Document {
 	@Lob
 	private byte[] data;
 	@OneToOne
-	@JsonBackReference
+	@JsonBackReference(value="user-document")
 	private User user;
 	
 

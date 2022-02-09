@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
-@Table(name="LoanAccountData")
+@Table(name="Loanaccountdata")
 public class LoanAccount {
 	
 	@Id
@@ -36,20 +36,21 @@ public class LoanAccount {
 	private int monthlyEMI;
 	
 	@OneToOne
-	private User user1;
+	@JsonBackReference(value="user-loan")
+	private User user;
 
 	public LoanAccount() {
 	
 	}
 
-	public LoanAccount(Account account, Double balance, String loanType, int tenure, int monthlyEMI, User user1) {
+	public LoanAccount(Account account, Double balance, String loanType, int tenure, int monthlyEMI, User user) {
 		super();
 		this.account = account;
 		this.balance = balance;
 		this.loanType = loanType;
 		this.tenure = tenure;
 		this.monthlyEMI = monthlyEMI;
-		this.user1 = user1;
+		this.user = user;
 	}
 
 	public Account getAccount() {
@@ -93,17 +94,17 @@ public class LoanAccount {
 	}
 
 	public User getUser() {
-		return user1;
+		return user;
 	}
 
 	public void setUser(User user) {
-		this.user1 = user1;
+		this.user = user;
 	}
 
 	@Override
 	public String toString() {
 		return "LoanAccount [account=" + account + ", balance=" + balance + ", loanType=" + loanType + ", tenure="
-				+ tenure + ", monthlyEMI=" + monthlyEMI + ", user=" + user1 + "]";
+				+ tenure + ", monthlyEMI=" + monthlyEMI + ", user=" + user + "]";
 	}
 	
 	

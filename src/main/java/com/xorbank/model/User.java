@@ -42,11 +42,8 @@ public class User {
 	private String resetPasswordToken;
 	@Column
 	private String emailVerificationCode;
-
-	
 	@Column
 	private boolean emailVerified;
-	
 	@Column
 	private int otp;
 
@@ -56,11 +53,11 @@ public class User {
 	
 	@OneToOne
     @JoinColumn(name = "documentId", referencedColumnName = "documentId")
-	@JsonManagedReference
+	@JsonManagedReference(value="user-document")
 	private Document document;
 	
-	@OneToOne(mappedBy="user1")
-	
+	@OneToOne
+	@JsonManagedReference(value="user-loan")
 	private LoanAccount loanAccount;
 	
 
@@ -70,11 +67,7 @@ public class User {
 	
 	public User(int userId, String firstname, String lastname, String email, String mobile, String dateofbirth,
 			String age, String gender, String password, String resetPasswordToken, String emailVerificationCode,
-<<<<<<< HEAD
-			boolean emailVerified, String otp, List<Account> accounts, Document document,LoanAccount loanAccount) {
-=======
-			boolean emailVerified, int otp, List<Account> accounts, Document document) {
->>>>>>> 4252903c313da781f1c8aca51ec7e38c24a2227a
+			boolean emailVerified, int otp, List<Account> accounts, Document document,LoanAccount loanAccount) {
 		super();
 		this.userId = userId;
 		this.firstname = firstname;
@@ -229,6 +222,13 @@ public class User {
 		this.emailVerified = emailVerified;
 	}
 
+	public LoanAccount getLoanAccount() {
+		return loanAccount;
+	}
+
+	public void setLoanAccount(LoanAccount loanAccount) {
+		this.loanAccount = loanAccount;
+	}
 
 	@Override
 	public String toString() {
@@ -238,13 +238,4 @@ public class User {
 				+ emailVerificationCode + ", emailVerified=" + emailVerified + ", otp=" + otp + ", accounts=" + accounts
 			 + "]";
 	}
-	public LoanAccount getLoanAccount() {
-		return loanAccount;
-	}
-
-	public void setLoanAccount(LoanAccount loanAccount) {
-		this.loanAccount = loanAccount;
-	}
-
-
 }

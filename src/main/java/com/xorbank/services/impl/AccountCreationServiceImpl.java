@@ -43,8 +43,7 @@ public class AccountCreationServiceImpl implements AccountCreationService{
 
 	@Override
 	public Account getAccount(int accountId) {
-		System.out.println(repository.getById(accountId));
-		return repository.getById(accountId);
+		return repository.findByAccountId(accountId);
 	}
 
 	@Override

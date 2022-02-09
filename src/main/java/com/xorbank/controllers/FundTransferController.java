@@ -34,23 +34,17 @@ public class FundTransferController {
 	
 	@Autowired
 	private JavaMailSender mailSender;
-
 	
 	@PutMapping("/transfer")
 	public MessageResponse fundTransfer(@RequestBody TransactionRequest transactionRequest) throws Exception{
 		System.out.println(transactionRequest);
-		if(fundTransferService.checkOTP(transactionRequest.getUserId(),transactionRequest.getOtp())) 
+		if(fundTransferService.checkAccountValidity(transactionRequest.getFromAccount()) && fundTransferService.getAccountStatus(transactionRequest.getFromAccount())) 
 		{
-			if(fundTransferService.checkAccountValidity(transactionRequest.getFromAccount()) && fundTransferService.getAccountStatus(transactionRequest.getFromAccount())) 
-			{
-				return fundTransferService.sendAmount(transactionRequest.getFromAccount(), transactionRequest.getToAccount(), transactionRequest.getAmount(),
-						transactionRequest.getDescription()); 	
+			return fundTransferService.sendAmount(transactionRequest.getFromAccount(), transactionRequest.getToAccount(), transactionRequest.getAmount(),
+					transactionRequest.getDescription(),transactionRequest.getUserId(),transactionRequest.getOtp()); 	
 			}else {
 				return new MessageResponse("Account invalid or deactivated!",400);
 			}
-		}else {
-			return new MessageResponse("Invalid OTP",400);
-		}
 		
 	}
 	

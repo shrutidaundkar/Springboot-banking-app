@@ -61,19 +61,18 @@ public class AccountCreateController {
 	}
 
 	@PostMapping(path = "/loan-account")
-	public MessageResponse createloanAccount(@RequestBody LoanAccountRequest loanaccountReq) throws Exception {
-		System.out.println("Loan Account"+loanaccountReq);
-		User user = signupService.getUser(loanaccountReq.getUserId());
+	public MessageResponse createloanAccount(@RequestBody LoanAccountRequest loanAccountReq) throws Exception {
+		User user = signupService.getUser(loanAccountReq.getUserId());
 		System.out.println("User"+user);
-		Account account=accountCreationService.getAccount(loanaccountReq.getAccountId());
+		Account account=accountCreationService.getAccount(loanAccountReq.getAccountId());
 		System.out.println("Account"+account);
 		LoanAccount loanAccount = new LoanAccount();
 		loanAccount.setUser(user);
 		loanAccount.setAccount(account);
-		loanAccount.setBalance(loanaccountReq.getBalance());
-		loanAccount.setLoanType(loanaccountReq.getLoanType());
-		loanAccount.setTenure(loanaccountReq.getTenure());
-		loanAccount.setMonthlyEMI(loanaccountReq.getMonthlyEMI());
+		loanAccount.setBalance(loanAccountReq.getBalance());
+		loanAccount.setLoanType(loanAccountReq.getLoanType());
+		loanAccount.setTenure(loanAccountReq.getTenure());
+		loanAccount.setMonthlyEMI(loanAccountReq.getMonthlyEMI());
 		System.out.println("Loan Account"+loanAccount);
 		if(accountCreationService.createLoanAccount(loanAccount)) {
 			return new MessageResponse("Loan Account Created Successfully!", 201);
@@ -81,15 +80,6 @@ public class AccountCreateController {
 			return new MessageResponse("Loan Account could not be created!",400);
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	@GetMapping(path = "all-accounts/{userId}")
 	public List<Account> getAllAccounts(@PathVariable("userId") Integer userId) {

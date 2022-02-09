@@ -52,7 +52,7 @@ public class FundTransferServiceImpl implements FundTransferService {
 	}
 
 	@Override
-	public MessageResponse sendAmount(int fromAccount, int toAccount, double amount,String description) throws Exception {
+	public MessageResponse sendAmount(int fromAccount, int toAccount, double amount,String description,int userId,int otp) throws Exception {
 		Transaction transaction = new Transaction();
 		transaction.setFromAccount(fromAccount);
 		transaction.setToAccount(toAccount);
@@ -64,16 +64,24 @@ public class FundTransferServiceImpl implements FundTransferService {
 			if (checkAccountValidity(toAccount) && checkAccountValidity(fromAccount)) {
 				
 				if (checkAccountBalance(fromAccount) > amount) {
-					Account from = accountRepository.getById(fromAccount);
-					Account to = accountRepository.getById(toAccount);
-					from.setBalance(from.getBalance() - amount);
-					to.setBalance(to.getBalance()+amount);
-					accountRepository.save(from);
-					accountRepository.save(to);
-					transaction.setTransactionStatus("SUCCESS");
-					transactionRepository.save(transaction);	
-					getAllTransactionsFromAccount(fromAccount);
-					return new MessageResponse("Transaction Successful",201);
+					
+					if(checkOTP(userId,otp)) {
+						Account from = accountRepository.getById(fromAccount);
+						Account to = accountRepository.getById(toAccount);
+						from.setBalance(from.getBalance() - amount);
+						to.setBalance(to.getBalance()+amount);
+						accountRepository.save(from);
+						accountRepository.save(to);
+						transaction.setTransactionStatus("SUCCESS");
+						transactionRepository.save(transaction);	
+						getAllTransactionsFromAccount(fromAccount);
+						return new MessageResponse("Transaction Successful",201);
+						
+					}else {
+						transaction.setTransactionStatus("FAILED");
+						transactionRepository.save(transaction);
+						return new MessageResponse("Invalid OTP",400);
+					}
 					
 				} else {
 					transaction.setTransactionStatus("FAILED");

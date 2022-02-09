@@ -11,7 +11,7 @@ public interface FundTransferService {
 
 	boolean checkAccountValidity(int accountId);
 	double checkAccountBalance(int accountId);
-	MessageResponse sendAmount(int fromAccount, int toAccount, double amount, String description) throws Exception;
+	MessageResponse sendAmount(int fromAccount, int toAccount, double amount, String description,int userId,int otp) throws Exception;
 	boolean getAccountStatus(int accountId);
 	List<Transaction> getAllTransactionsFromAccount(int accountId);
 	User getUser(int userId);

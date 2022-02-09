@@ -6,6 +6,6 @@ import com.xorbank.model.Document;
 
 public interface DocStorageService {
 	
-	public Document saveFile(MultipartFile file);
+	public Document saveFile(MultipartFile file, Integer userId);
 	public Document getFile(Integer fileId);	
 }

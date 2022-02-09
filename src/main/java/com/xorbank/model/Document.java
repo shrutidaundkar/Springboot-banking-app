@@ -5,36 +5,45 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name="documents")
 public class Document {
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	private Integer id;
+	private Integer documentId;
 	private String docName;
 	private String docType;
 	@Lob
 	private byte[] data;
+	@OneToOne
+	@JsonBackReference
+	private User user;
 	
-	public Document(String docName, String docType, byte[] data) {
-		super();
-		this.docName = docName;
-		this.docType = docType;
-		this.data = data;
-	}
+
 	
 	public Document() {
 		super();
 	}
 
-	public Integer getId() {
-		return id;
+	public Document( String docName, String docType, byte[] data, User user) {
+		super();
+		this.docName = docName;
+		this.docType = docType;
+		this.data = data;
+		this.user = user;
 	}
-
-	public void setId(Integer id) {
-		this.id = id;
+	public Document(Integer documentId, String docName, String docType, byte[] data, User user) {
+		super();
+		this.documentId = documentId;
+		this.docName = docName;
+		this.docType = docType;
+		this.data = data;
+		this.user = user;
 	}
 
 	public String getDocName() {
@@ -59,5 +68,27 @@ public class Document {
 
 	public void setData(byte[] data) {
 		this.data = data;
+	}
+
+	public Integer getDocumentId() {
+		return documentId;
+	}
+
+	public void setDocumentId(Integer documentId) {
+		this.documentId = documentId;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	@Override
+	public String toString() {
+		return "Document [documentId=" + documentId + ", docName=" + docName + ", docType=" + docType + ", data="
+				 + ", user=" + user + "]";
 	}
 }

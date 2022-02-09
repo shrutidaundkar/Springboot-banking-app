@@ -24,8 +24,6 @@ import com.xorbank.request.TransactionRequest;
 import com.xorbank.response.MessageResponse;
 import com.xorbank.services.FundTransferService;
 
-import net.bytebuddy.utility.RandomString;
-
 @RestController
 @RequestMapping("/server")
 @CrossOrigin(origins = "http://localhost:4200")

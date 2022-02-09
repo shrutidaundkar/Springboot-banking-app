@@ -11,8 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.TableGenerator;
-
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -54,7 +52,8 @@ public class User {
 	private List<Account> accounts = new ArrayList<Account>();
 	
 	@OneToOne
-    @JoinColumn(name = "document_id", referencedColumnName = "id")
+    @JoinColumn(name = "documentId", referencedColumnName = "documentId")
+	@JsonManagedReference
 	private Document document;
 
 	public User() {
@@ -205,6 +204,16 @@ public class User {
 
 	public void setOtp(int otp) {
 		this.otp = otp;
+	}
+
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+
+	public void setEmailVerified(boolean emailVerified) {
+		this.emailVerified = emailVerified;
 	}
 
 

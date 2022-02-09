@@ -23,9 +23,9 @@ public class DocumentController {
 	@Autowired
 	private DocStorageService docStorageService;
 
-	@PostMapping("/uploadFile")
-	public ResponseEntity<HttpStatus> uploadFile(@RequestParam("file") MultipartFile file) {
-		docStorageService.saveFile(file);
+	@PostMapping("/uploadFile/{userId}")
+	public ResponseEntity<HttpStatus> uploadFile(@PathVariable("userId") Integer userId,  @RequestParam("file") MultipartFile file) {
+		docStorageService.saveFile(file, userId);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
 

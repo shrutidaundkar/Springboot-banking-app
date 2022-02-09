@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.xorbank.model.Account;
+import com.xorbank.model.LoanAccount;
 import com.xorbank.repository.AccountRepository;
+import com.xorbank.repository.LoanAccountRepository;
 import com.xorbank.services.AccountCreationService;
 
 
@@ -14,11 +16,12 @@ import com.xorbank.services.AccountCreationService;
 public class AccountCreationServiceImpl implements AccountCreationService{
 	
 	private final AccountRepository repository;
-	
+	private final LoanAccountRepository loanRepository;
 	@Autowired
-	public AccountCreationServiceImpl(AccountRepository repository) {
+	public AccountCreationServiceImpl(AccountRepository repository,LoanAccountRepository loanRepository ) {
 		super();
 		this.repository = repository;
+		this.loanRepository=loanRepository;
 	}
 
 	@Override
@@ -48,6 +51,10 @@ public class AccountCreationServiceImpl implements AccountCreationService{
 	public Account updateAccount(Account account) {
 		return repository.save(account);
 	}
-	
-
+	@Override
+	public boolean createLoanAccount(LoanAccount loanAccount) {
+		loanRepository.save(loanAccount);
+		return true;
+		
+	}
 }

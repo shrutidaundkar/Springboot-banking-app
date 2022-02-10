@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -18,8 +19,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 public class User {
 
 	@Id
-//	@TableGenerator(name = "User_Gen", table = "User_ID_GEN", pkColumnName = "GEN_NAME", valueColumnName = "GEN_VAL", pkColumnValue = "User_Gen", initialValue = 10000, allocationSize = 1)
-//	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "User_Gen")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int userId;
 	@Column

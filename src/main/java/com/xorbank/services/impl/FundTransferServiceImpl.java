@@ -1,8 +1,10 @@
 package com.xorbank.services.impl;
 
-import java.time.LocalDateTime;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +60,9 @@ public class FundTransferServiceImpl implements FundTransferService {
 		transaction.setToAccount(toAccount);
 		transaction.setDescription(description);
 		transaction.setAmount(amount);
-		transaction.setTransactionDate(LocalDateTime.now().toString());
+		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String currentDateTime = dateFormatter.format(new Date());
+		transaction.setTransactionDate(currentDateTime);
 		if (fromAccount != toAccount) {
 			
 			if (checkAccountValidity(toAccount) && checkAccountValidity(fromAccount)) {

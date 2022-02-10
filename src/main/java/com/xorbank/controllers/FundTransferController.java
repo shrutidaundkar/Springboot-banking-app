@@ -1,10 +1,13 @@
 package com.xorbank.controllers;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletResponse;
 
+import org.dom4j.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -23,6 +26,7 @@ import com.xorbank.model.User;
 import com.xorbank.request.TransactionRequest;
 import com.xorbank.response.MessageResponse;
 import com.xorbank.services.FundTransferService;
+import com.xoriant.utility.TransactionPDFExporter;
 
 @RestController
 @RequestMapping("/server")
@@ -84,4 +88,17 @@ public class FundTransferController {
 
 		mailSender.send(message);
 	}
+	
+	@GetMapping("/transaction/exportPdf/{accountId}")
+    public void exportToPDF(HttpServletResponse response,@PathVariable("accountId") Integer accountId) throws DocumentException, IOException, com.lowagie.text.DocumentException {
+        response.setContentType("application/pdf"); 
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment";
+        response.setHeader(headerKey, headerValue);
+         
+        List<Transaction> listTransactions = fundTransferService.getAllTransactionsFromAccount(accountId);
+         
+        TransactionPDFExporter exporter = new TransactionPDFExporter(listTransactions);
+        exporter.export(response);
+    }
 }

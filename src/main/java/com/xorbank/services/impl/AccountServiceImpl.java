@@ -9,16 +9,16 @@ import com.xorbank.model.Account;
 import com.xorbank.model.LoanAccount;
 import com.xorbank.repository.AccountRepository;
 import com.xorbank.repository.LoanAccountRepository;
-import com.xorbank.services.AccountCreationService;
+import com.xorbank.services.AccountService;
 
 
 @Service
-public class AccountCreationServiceImpl implements AccountCreationService{
+public class AccountServiceImpl implements AccountService{
 	
 	private final AccountRepository repository;
 	private final LoanAccountRepository loanRepository;
 	@Autowired
-	public AccountCreationServiceImpl(AccountRepository repository,LoanAccountRepository loanRepository ) {
+	public AccountServiceImpl(AccountRepository repository,LoanAccountRepository loanRepository ) {
 		super();
 		this.repository = repository;
 		this.loanRepository=loanRepository;

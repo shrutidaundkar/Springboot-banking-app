@@ -23,7 +23,8 @@ import com.xorbank.services.impl.SignUpServiceImpl;
 import net.bytebuddy.utility.RandomString;
 
 @RestController
-@RequestMapping("/server")
+//@RequestMapping("/server")
+@RequestMapping("${server.context-path}")
 @CrossOrigin(origins = "http://localhost:4200")
 public class SignUpController {
 
@@ -36,7 +37,8 @@ public class SignUpController {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-	@PostMapping("/save")
+//	@PostMapping("/save")
+	@PostMapping("${user.save}")
 	@Transactional
 	public MessageResponse signUpUser(@RequestBody User user) throws UnsupportedEncodingException, MessagingException {
 
@@ -66,7 +68,8 @@ public class SignUpController {
 			return new MessageResponse("Duplicate Email!", 400);
 	}
 
-	@PostMapping("/verify")
+//	@PostMapping("/verify")
+	@PostMapping("${user.verify}")
 	public MessageResponse verifyUser(@RequestBody EmailVerificationRequest emailVerificationRequest) {
 		if (signupService.verify(emailVerificationRequest.getEmailVerificationCode())) {
 			return new MessageResponse("Verification Successful", 201);
@@ -75,7 +78,8 @@ public class SignUpController {
 		}
 	}
 	
-	@GetMapping("/all-users")
+//	@GetMapping("/all-users")
+	@GetMapping("${get.all.users}")
 	public ResponseEntity<Iterable<User>> getAllUsers() {
 		return ResponseEntity.ok().body(adminService.getAllUsers());
 	}

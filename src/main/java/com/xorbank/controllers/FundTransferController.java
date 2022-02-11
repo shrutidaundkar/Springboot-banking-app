@@ -29,7 +29,8 @@ import com.xorbank.services.FundTransferService;
 import com.xoriant.utility.TransactionPDFExporter;
 
 @RestController
-@RequestMapping("/server")
+//@RequestMapping("/server")
+@RequestMapping("${server.context-path}")
 @CrossOrigin(origins = "http://localhost:4200")
 public class FundTransferController {
 	
@@ -39,7 +40,8 @@ public class FundTransferController {
 	@Autowired
 	private JavaMailSender mailSender;
 	
-	@PutMapping("/transfer")
+	//@PutMapping("/transfer")
+	@PutMapping("${fund.transfer}")
 	public MessageResponse fundTransfer(@RequestBody TransactionRequest transactionRequest) throws Exception{
 		System.out.println(transactionRequest);
 		if(fundTransferService.checkAccountValidity(transactionRequest.getFromAccount()) && fundTransferService.getAccountStatus(transactionRequest.getFromAccount())) 
@@ -52,12 +54,14 @@ public class FundTransferController {
 		
 	}
 	
-	@GetMapping(path="/history/{fromAccountId}")
+	//@GetMapping(path="/history/{fromAccountId}")
+	@GetMapping("${account.statement}")
 	public List<Transaction> getHistoryOf(@PathVariable("fromAccountId") Integer accountId){
 		return fundTransferService.getAllTransactionsFromAccount(accountId);
 	}
 	
-	@GetMapping(path="/otp/{userId}")
+	//@GetMapping(path="/otp/{userId}")
+	@GetMapping("${otp.user}")
 	public MessageResponse sendOTP(@PathVariable("userId") Integer userId) throws UnsupportedEncodingException, MessagingException, UserNotFoundException{
 		int min = 10000;
 	    int max = 99999;
@@ -89,7 +93,8 @@ public class FundTransferController {
 		mailSender.send(message);
 	}
 	
-	@GetMapping("/transaction/exportPdf/{accountId}")
+	//@GetMapping("/transaction/exportPdf/{accountId}")
+	@GetMapping("${statement.export.pdf}")
     public void exportToPDF(HttpServletResponse response,@PathVariable("accountId") Integer accountId) throws DocumentException, IOException, com.lowagie.text.DocumentException {
         response.setContentType("application/pdf"); 
         String headerKey = "Content-Disposition";

@@ -17,20 +17,23 @@ import com.xorbank.model.Document;
 import com.xorbank.services.DocStorageService;
 
 @RestController
-@RequestMapping("/server")
+//@RequestMapping("/server")
+@RequestMapping("${server.context-path}")
 @CrossOrigin(origins = "http://localhost:4200")
 public class DocumentController {
 	@Autowired
 	private DocStorageService docStorageService;
 
-	@PostMapping("/uploadFile/{userId}")
+	//@PostMapping("/uploadFile/{userId}")
+	@PostMapping("${upload.file}")
 	public ResponseEntity<HttpStatus> uploadFile(@PathVariable("userId") Integer userId,  @RequestParam("file") MultipartFile file) {
 		docStorageService.saveFile(file, userId);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
 
 	
-	@GetMapping("/downloadFile/{id}")
+	//@GetMapping("/downloadFile/{id}")
+	@GetMapping("${download.file}")
 	  public ResponseEntity<byte[]> downloadFile(@PathVariable Integer id) {
 	    Document document = docStorageService.getFile(id);
 

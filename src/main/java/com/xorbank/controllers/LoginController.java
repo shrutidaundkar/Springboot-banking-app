@@ -14,7 +14,8 @@ import com.xorbank.response.MessageResponse;
 import com.xorbank.services.impl.LoginServiceImpl;
 
 @RestController
-@RequestMapping("/server")
+//@RequestMapping("/server")
+@RequestMapping("${server.context-path}")
 @CrossOrigin(origins = "http://localhost:4200")
 public class LoginController {
 	
@@ -22,7 +23,8 @@ public class LoginController {
 	private LoginServiceImpl loginService;
 
 	
-	@PostMapping("/login")
+//	@PostMapping("/login")
+	@PostMapping("${user.login}")
 	public MessageResponse findByEmail( @RequestBody LoginRequest login) throws UserNotFoundException,Exception{
 		User user=loginService.findByEmail(login);
 		if(user==null) {

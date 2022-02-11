@@ -28,7 +28,8 @@ public class ForgotPasswordController {
 	@Autowired
 	private ResetPasswordServiceImpl resetPasswordService;
 
-	@PostMapping("/forgot-password")
+	//@PostMapping("/forgot-password")
+	@PostMapping("${forget.password}")
 	public MessageResponse processForgotPassword(@RequestBody ForgotPasswordRequest forgotPasswordRequest) 
 			throws UnsupportedEncodingException, MessagingException, UserNotFoundException {
 		String email = forgotPasswordRequest.getEmail();
@@ -66,7 +67,8 @@ public class ForgotPasswordController {
 		mailSender.send(message);
 	}
 
-	@PostMapping("/reset-password")
+	//@PostMapping("/reset-password")
+	@PostMapping("${reset.password}")
 	public MessageResponse processResetPassword(@RequestBody ForgotPasswordRequest forgotPasswordRequest) throws Exception {
 		String token = forgotPasswordRequest.getToken();
 		String password = forgotPasswordRequest.getNewPassword();

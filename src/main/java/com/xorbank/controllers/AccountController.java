@@ -32,7 +32,8 @@ import com.xorbank.services.SignUpService;
 import com.xoriant.utility.AccountPDFExporter;
 
 @RestController
-@RequestMapping(path = "/server")
+//@RequestMapping(path = "/server")
+@RequestMapping("${server.context-path}")
 @CrossOrigin(origins = "http://localhost:4200")
 public class AccountController {
 	@Autowired
@@ -50,7 +51,8 @@ public class AccountController {
 		this.signupService = signupService;
 	}
 
-	@PostMapping(path = "/account")
+	//@PostMapping(path = "/account")
+	@PostMapping("${create.account}")
 	public MessageResponse signUp(@RequestBody AccountRequest accountRequest) throws Exception {
 
 		User user = signupService.getUser(accountRequest.getUserId());
@@ -69,7 +71,9 @@ public class AccountController {
 		}
 	}
 
-	@PostMapping(path = "/loan-account")
+	//@PostMapping(path = "/loan-account")
+	@PostMapping("${loan.account}")
+	
 	public MessageResponse createloanAccount(@RequestBody LoanAccountRequest loanAccountReq) throws Exception {
 		User user = profileService.findByUserId(loanAccountReq.getUserId());
 		Account account=accountService.getAccount(loanAccountReq.getAccountId());
@@ -89,13 +93,15 @@ public class AccountController {
 		}
 	}
 	
-	@GetMapping(path = "all-accounts/{userId}")
+	//@GetMapping(path = "all-accounts/{userId}")
+	@GetMapping("get.all.accounts")
 	public List<Account> getAllAccounts(@PathVariable("userId") Integer userId) {
 		return profileService.findByUserId(userId).getAccounts();
 
 	}
 
-	@PutMapping(path = "account/deactivate")
+	//@PutMapping(path = "account/deactivate")
+	@PutMapping("${account.deactivate}")
 	public MessageResponse deactivateAccount(@RequestBody UserRequest userRequest) throws Exception { 
 		Account account = accountService.getAccount(userRequest.getAccountId());
 		account.setAccountStatus(false);
@@ -105,7 +111,8 @@ public class AccountController {
 			throw new Exception("Error Occured");
 	}
 
-	@GetMapping("/account/exportPdf/{userId}")
+	//@GetMapping("/account/exportPdf/{userId}")
+	@GetMapping("${account.export.pdf}")
     public void exportToPDF(HttpServletResponse response,@PathVariable("userId") Integer userId) throws DocumentException, IOException, com.lowagie.text.DocumentException {
         response.setContentType("application/pdf"); 
         String headerKey = "Content-Disposition";

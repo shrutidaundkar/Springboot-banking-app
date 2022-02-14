@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.dom4j.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,6 +36,7 @@ import com.xoriant.utility.AccountPDFExporter;
 //@RequestMapping(path = "/server")
 @RequestMapping("${server.context-path}")
 @CrossOrigin(origins = "http://localhost:4200")
+@PropertySource("classpath:xorbankUrl.properties")
 public class AccountController {
 	@Autowired
 	private AccountService accountService;
@@ -52,7 +54,7 @@ public class AccountController {
 	}
 
 	//@PostMapping(path = "/account")
-	@PostMapping("${create.account}")
+	@PostMapping("${CREATE_ACCOUNT}")
 	public MessageResponse signUp(@RequestBody AccountRequest accountRequest) throws Exception {
 
 		User user = signupService.getUser(accountRequest.getUserId());
@@ -72,11 +74,12 @@ public class AccountController {
 	}
 
 	//@PostMapping(path = "/loan-account")
-	@PostMapping("${loan.account}")
+	@PostMapping("${LOAN_ACCOUNT}")
 	
 	public MessageResponse createloanAccount(@RequestBody LoanAccountRequest loanAccountReq) throws Exception {
 		User user = profileService.findByUserId(loanAccountReq.getUserId());
 		Account account=accountService.getAccount(loanAccountReq.getAccountId());
+		System.out.println("Loan Account");
 		System.out.println("Account"+account);
 		LoanAccount loanAccount = new LoanAccount();
 		loanAccount.setUser(user);
@@ -94,14 +97,14 @@ public class AccountController {
 	}
 	
 	//@GetMapping(path = "all-accounts/{userId}")
-	@GetMapping("get.all.accounts")
+	@GetMapping("${GET_ALL_ACCOUNTS}")
 	public List<Account> getAllAccounts(@PathVariable("userId") Integer userId) {
 		return profileService.findByUserId(userId).getAccounts();
 
 	}
 
 	//@PutMapping(path = "account/deactivate")
-	@PutMapping("${account.deactivate}")
+	@PutMapping("${ACCOUNT_DEACTIVATE}")
 	public MessageResponse deactivateAccount(@RequestBody UserRequest userRequest) throws Exception { 
 		Account account = accountService.getAccount(userRequest.getAccountId());
 		account.setAccountStatus(false);
@@ -112,7 +115,7 @@ public class AccountController {
 	}
 
 	//@GetMapping("/account/exportPdf/{userId}")
-	@GetMapping("${account.export.pdf}")
+	@GetMapping("${ACCOUNT_EXPORT_PDF}")
     public void exportToPDF(HttpServletResponse response,@PathVariable("userId") Integer userId) throws DocumentException, IOException, com.lowagie.text.DocumentException {
         response.setContentType("application/pdf"); 
         String headerKey = "Content-Disposition";

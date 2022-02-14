@@ -6,6 +6,7 @@ import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -24,6 +25,7 @@ import net.bytebuddy.utility.RandomString;
 
 @RestController
 //@RequestMapping("/server")
+@PropertySource("classpath:xorbankUrl.properties")
 @RequestMapping("${server.context-path}")
 @CrossOrigin(origins = "http://localhost:4200")
 public class SignUpController {
@@ -38,7 +40,7 @@ public class SignUpController {
 	private PasswordEncoder passwordEncoder;
 
 //	@PostMapping("/save")
-	@PostMapping("${user.save}")
+	@PostMapping("${USER_SAVE}")
 	@Transactional
 	public MessageResponse signUpUser(@RequestBody User user) throws UnsupportedEncodingException, MessagingException {
 
@@ -69,7 +71,7 @@ public class SignUpController {
 	}
 
 //	@PostMapping("/verify")
-	@PostMapping("${user.verify}")
+	@PostMapping("${USER_VERIFY}")
 	public MessageResponse verifyUser(@RequestBody EmailVerificationRequest emailVerificationRequest) {
 		if (signupService.verify(emailVerificationRequest.getEmailVerificationCode())) {
 			return new MessageResponse("Verification Successful", 201);
@@ -79,7 +81,7 @@ public class SignUpController {
 	}
 	
 //	@GetMapping("/all-users")
-	@GetMapping("${get.all.users}")
+	@GetMapping("${GET_ALL_USERS}")
 	public ResponseEntity<Iterable<User>> getAllUsers() {
 		return ResponseEntity.ok().body(adminService.getAllUsers());
 	}

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.dom4j.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -30,6 +31,7 @@ import com.xoriant.utility.TransactionPDFExporter;
 
 @RestController
 //@RequestMapping("/server")
+@PropertySource("classpath:xorbankUrl.properties")
 @RequestMapping("${server.context-path}")
 @CrossOrigin(origins = "http://localhost:4200")
 public class FundTransferController {
@@ -41,7 +43,7 @@ public class FundTransferController {
 	private JavaMailSender mailSender;
 	
 	//@PutMapping("/transfer")
-	@PutMapping("${fund.transfer}")
+	@PutMapping("${FUND_TRANSFER}")
 	public MessageResponse fundTransfer(@RequestBody TransactionRequest transactionRequest) throws Exception{
 		System.out.println(transactionRequest);
 		if(fundTransferService.checkAccountValidity(transactionRequest.getFromAccount()) && fundTransferService.getAccountStatus(transactionRequest.getFromAccount())) 
@@ -55,13 +57,13 @@ public class FundTransferController {
 	}
 	
 	//@GetMapping(path="/history/{fromAccountId}")
-	@GetMapping("${account.statement}")
+	@GetMapping("${ACCOUNT_STATEMENT}")
 	public List<Transaction> getHistoryOf(@PathVariable("fromAccountId") Integer accountId){
 		return fundTransferService.getAllTransactionsFromAccount(accountId);
 	}
 	
 	//@GetMapping(path="/otp/{userId}")
-	@GetMapping("${otp.user}")
+	@GetMapping("${OTP_USER}")
 	public MessageResponse sendOTP(@PathVariable("userId") Integer userId) throws UnsupportedEncodingException, MessagingException, UserNotFoundException{
 		int min = 10000;
 	    int max = 99999;
@@ -94,7 +96,7 @@ public class FundTransferController {
 	}
 	
 	//@GetMapping("/transaction/exportPdf/{accountId}")
-	@GetMapping("${statement.export.pdf}")
+	@GetMapping("${STATEMENT_EXPORT_PDF}")
     public void exportToPDF(HttpServletResponse response,@PathVariable("accountId") Integer accountId) throws DocumentException, IOException, com.lowagie.text.DocumentException {
         response.setContentType("application/pdf"); 
         String headerKey = "Content-Disposition";

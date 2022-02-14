@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -21,6 +22,7 @@ import net.bytebuddy.utility.RandomString;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
+@PropertySource("classpath:xorbankUrl.properties")
 public class ForgotPasswordController {
 	@Autowired
 	private JavaMailSender mailSender;
@@ -29,7 +31,7 @@ public class ForgotPasswordController {
 	private ResetPasswordServiceImpl resetPasswordService;
 
 	//@PostMapping("/forgot-password")
-	@PostMapping("${forget.password}")
+	@PostMapping("${FORGET_PASSWORD}")
 	public MessageResponse processForgotPassword(@RequestBody ForgotPasswordRequest forgotPasswordRequest) 
 			throws UnsupportedEncodingException, MessagingException, UserNotFoundException {
 		String email = forgotPasswordRequest.getEmail();
@@ -68,7 +70,7 @@ public class ForgotPasswordController {
 	}
 
 	//@PostMapping("/reset-password")
-	@PostMapping("${reset.password}")
+	@PostMapping("${RESET_PASSWORD}")
 	public MessageResponse processResetPassword(@RequestBody ForgotPasswordRequest forgotPasswordRequest) throws Exception {
 		String token = forgotPasswordRequest.getToken();
 		String password = forgotPasswordRequest.getNewPassword();

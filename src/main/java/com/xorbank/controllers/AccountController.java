@@ -54,7 +54,6 @@ public class AccountController {
 	//@PostMapping(path = "/account")
 	@PostMapping("${create.account}")
 	public MessageResponse signUp(@RequestBody AccountRequest accountRequest) throws Exception {
-
 		User user = signupService.getUser(accountRequest.getUserId());
 		Account account = new Account();
 		account.setAccountType(accountRequest.getAccountType());
@@ -73,7 +72,6 @@ public class AccountController {
 
 	//@PostMapping(path = "/loan-account")
 	@PostMapping("${loan.account}")
-	
 	public MessageResponse createloanAccount(@RequestBody LoanAccountRequest loanAccountReq) throws Exception {
 		User user = profileService.findByUserId(loanAccountReq.getUserId());
 		Account account=accountService.getAccount(loanAccountReq.getAccountId());
@@ -109,17 +107,17 @@ public class AccountController {
 			throw new Exception("Error Occured");
 	}
 
-//	@GetMapping("/account/exportPdf/{userId}")
-//	@GetMapping("${account.export.pdf}")
-//    public void exportToPDF(HttpServletResponse response,@PathVariable("userId") Integer userId) throws DocumentException, IOException, com.lowagie.text.DocumentException {
-//        response.setContentType("application/pdf"); 
-//        String headerKey = "Content-Disposition";
-//        String headerValue = "attachment";
-//        response.setHeader(headerKey, headerValue);
-//         
-//        List<Account> listAccounts = accountService.getAllAccounts(userId);
-//         
-//        AccountPDFExporter exporter = new AccountPDFExporter(listAccounts);
-//        exporter.export(response);
-//    }
+	//@GetMapping("/account/exportPdf/{userId}")
+	@GetMapping("${account.export.pdf}")
+    public void exportToPDF(HttpServletResponse response,@PathVariable("userId") Integer userId) throws DocumentException, IOException, com.lowagie.text.DocumentException {
+        response.setContentType("application/pdf"); 
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment";
+        response.setHeader(headerKey, headerValue);
+         
+        List<Account> listAccounts = accountService.getAllAccounts(userId);
+         
+        AccountPDFExporter exporter = new AccountPDFExporter(listAccounts);
+        exporter.export(response);
+    }
 }

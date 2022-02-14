@@ -77,7 +77,6 @@ public class AccountController {
 	public MessageResponse createloanAccount(@RequestBody LoanAccountRequest loanAccountReq) throws Exception {
 		User user = profileService.findByUserId(loanAccountReq.getUserId());
 		Account account=accountService.getAccount(loanAccountReq.getAccountId());
-		System.out.println("Account"+account);
 		LoanAccount loanAccount = new LoanAccount();
 		loanAccount.setUser(user);
 		loanAccount.setAccount(account);
@@ -85,7 +84,6 @@ public class AccountController {
 		loanAccount.setLoanType(loanAccountReq.getLoanType());
 		loanAccount.setTenure(loanAccountReq.getTenure());
 		loanAccount.setMonthlyEMI(loanAccountReq.getMonthlyEMI());
-		System.out.println("Loan Account"+loanAccount);
 		if(accountService.createLoanAccount(loanAccount)) {
 			return new MessageResponse("Loan Account Created Successfully!", 201);
 		}else {
@@ -94,7 +92,7 @@ public class AccountController {
 	}
 	
 	//@GetMapping(path = "all-accounts/{userId}")
-	@GetMapping("get.all.accounts")
+	@GetMapping("${get.all.accounts}")
 	public List<Account> getAllAccounts(@PathVariable("userId") Integer userId) {
 		return profileService.findByUserId(userId).getAccounts();
 
@@ -111,17 +109,17 @@ public class AccountController {
 			throw new Exception("Error Occured");
 	}
 
-	//@GetMapping("/account/exportPdf/{userId}")
-	@GetMapping("${account.export.pdf}")
-    public void exportToPDF(HttpServletResponse response,@PathVariable("userId") Integer userId) throws DocumentException, IOException, com.lowagie.text.DocumentException {
-        response.setContentType("application/pdf"); 
-        String headerKey = "Content-Disposition";
-        String headerValue = "attachment";
-        response.setHeader(headerKey, headerValue);
-         
-        List<Account> listAccounts = accountService.getAllAccounts(userId);
-         
-        AccountPDFExporter exporter = new AccountPDFExporter(listAccounts);
-        exporter.export(response);
-    }
+//	@GetMapping("/account/exportPdf/{userId}")
+//	@GetMapping("${account.export.pdf}")
+//    public void exportToPDF(HttpServletResponse response,@PathVariable("userId") Integer userId) throws DocumentException, IOException, com.lowagie.text.DocumentException {
+//        response.setContentType("application/pdf"); 
+//        String headerKey = "Content-Disposition";
+//        String headerValue = "attachment";
+//        response.setHeader(headerKey, headerValue);
+//         
+//        List<Account> listAccounts = accountService.getAllAccounts(userId);
+//         
+//        AccountPDFExporter exporter = new AccountPDFExporter(listAccounts);
+//        exporter.export(response);
+//    }
 }

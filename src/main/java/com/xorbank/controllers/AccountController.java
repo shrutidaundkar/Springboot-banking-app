@@ -56,7 +56,6 @@ public class AccountController {
 	//@PostMapping(path = "/account")
 	@PostMapping("${CREATE_ACCOUNT}")
 	public MessageResponse signUp(@RequestBody AccountRequest accountRequest) throws Exception {
-
 		User user = signupService.getUser(accountRequest.getUserId());
 		Account account = new Account();
 		account.setAccountType(accountRequest.getAccountType());
@@ -74,13 +73,12 @@ public class AccountController {
 	}
 
 	//@PostMapping(path = "/loan-account")
+
 	@PostMapping("${LOAN_ACCOUNT}")
 	
 	public MessageResponse createloanAccount(@RequestBody LoanAccountRequest loanAccountReq) throws Exception {
 		User user = profileService.findByUserId(loanAccountReq.getUserId());
 		Account account=accountService.getAccount(loanAccountReq.getAccountId());
-		System.out.println("Loan Account");
-		System.out.println("Account"+account);
 		LoanAccount loanAccount = new LoanAccount();
 		loanAccount.setUser(user);
 		loanAccount.setAccount(account);
@@ -88,7 +86,6 @@ public class AccountController {
 		loanAccount.setLoanType(loanAccountReq.getLoanType());
 		loanAccount.setTenure(loanAccountReq.getTenure());
 		loanAccount.setMonthlyEMI(loanAccountReq.getMonthlyEMI());
-		System.out.println("Loan Account"+loanAccount);
 		if(accountService.createLoanAccount(loanAccount)) {
 			return new MessageResponse("Loan Account Created Successfully!", 201);
 		}else {

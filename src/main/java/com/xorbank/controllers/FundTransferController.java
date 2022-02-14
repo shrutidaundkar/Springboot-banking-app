@@ -95,17 +95,18 @@ public class FundTransferController {
 		mailSender.send(message);
 	}
 	
-	//@GetMapping("/transaction/exportPdf/{accountId}")
-	@GetMapping("${STATEMENT_EXPORT_PDF}")
-    public void exportToPDF(HttpServletResponse response,@PathVariable("accountId") Integer accountId) throws DocumentException, IOException, com.lowagie.text.DocumentException {
-        response.setContentType("application/pdf"); 
-        String headerKey = "Content-Disposition";
-        String headerValue = "attachment";
-        response.setHeader(headerKey, headerValue);
-         
-        List<Transaction> listTransactions = fundTransferService.getAllTransactionsFromAccount(accountId);
-         
-        TransactionPDFExporter exporter = new TransactionPDFExporter(listTransactions);
-        exporter.export(response);
-    }
+//  @GetMapping("/transaction/exportPdf/{accountId}")
+//	@GetMapping("${STATEMENT_EXPORT_PDF}")
+//    public void exportToPDF(HttpServletResponse response,@PathVariable("accountId") Integer accountId) throws DocumentException, IOException, com.lowagie.text.DocumentException {
+//        response.setContentType("application/pdf"); 
+//        String headerKey = "Content-Disposition";
+//        String headerValue = "attachment";
+//        response.setHeader(headerKey, headerValue);
+//         
+//        List<Transaction> listTransactions = fundTransferService.getAllTransactionsFromAccount(accountId);
+//         
+//        TransactionPDFExporter exporter = new TransactionPDFExporter(listTransactions);
+//        exporter.export(response);
+//    }
+
 }

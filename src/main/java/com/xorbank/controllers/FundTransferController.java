@@ -1,11 +1,15 @@
 package com.xorbank.controllers;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletResponse;
 
+import org.dom4j.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -23,9 +27,12 @@ import com.xorbank.model.User;
 import com.xorbank.request.TransactionRequest;
 import com.xorbank.response.MessageResponse;
 import com.xorbank.services.FundTransferService;
+import com.xoriant.utility.TransactionPDFExporter;
 
 @RestController
-@RequestMapping("/server")
+//@RequestMapping("/server")
+@PropertySource("classpath:xorbankUrl.properties")
+@RequestMapping("${server.context-path}")
 @CrossOrigin(origins = "http://localhost:4200")
 public class FundTransferController {
 	
@@ -35,7 +42,8 @@ public class FundTransferController {
 	@Autowired
 	private JavaMailSender mailSender;
 	
-	@PutMapping("/transfer")
+	//@PutMapping("/transfer")
+	@PutMapping("${FUND_TRANSFER}")
 	public MessageResponse fundTransfer(@RequestBody TransactionRequest transactionRequest) throws Exception{
 		System.out.println(transactionRequest);
 		if(fundTransferService.checkAccountValidity(transactionRequest.getFromAccount()) && fundTransferService.getAccountStatus(transactionRequest.getFromAccount())) 
@@ -48,12 +56,14 @@ public class FundTransferController {
 		
 	}
 	
-	@GetMapping(path="/history/{fromAccountId}")
+	//@GetMapping(path="/history/{fromAccountId}")
+	@GetMapping("${ACCOUNT_STATEMENT}")
 	public List<Transaction> getHistoryOf(@PathVariable("fromAccountId") Integer accountId){
 		return fundTransferService.getAllTransactionsFromAccount(accountId);
 	}
 	
-	@GetMapping(path="/otp/{userId}")
+	//@GetMapping(path="/otp/{userId}")
+	@GetMapping("${OTP_USER}")
 	public MessageResponse sendOTP(@PathVariable("userId") Integer userId) throws UnsupportedEncodingException, MessagingException, UserNotFoundException{
 		int min = 10000;
 	    int max = 99999;
@@ -84,4 +94,19 @@ public class FundTransferController {
 
 		mailSender.send(message);
 	}
+	
+//  @GetMapping("/transaction/exportPdf/{accountId}")
+//	@GetMapping("${STATEMENT_EXPORT_PDF}")
+//    public void exportToPDF(HttpServletResponse response,@PathVariable("accountId") Integer accountId) throws DocumentException, IOException, com.lowagie.text.DocumentException {
+//        response.setContentType("application/pdf"); 
+//        String headerKey = "Content-Disposition";
+//        String headerValue = "attachment";
+//        response.setHeader(headerKey, headerValue);
+//         
+//        List<Transaction> listTransactions = fundTransferService.getAllTransactionsFromAccount(accountId);
+//         
+//        TransactionPDFExporter exporter = new TransactionPDFExporter(listTransactions);
+//        exporter.export(response);
+//    }
+
 }

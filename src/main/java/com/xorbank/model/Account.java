@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -21,8 +22,6 @@ public class Account implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-//	@TableGenerator(name = "Account_Gen", table = "Account_ID_GEN", pkColumnName = "GEN_NAME", valueColumnName = "GEN_VAL", pkColumnValue = "Account_Gen", initialValue = 10000, allocationSize = 1)
-//	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "Account_Gen")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int accountId;
 	
@@ -31,6 +30,9 @@ public class Account implements Serializable{
 	
 	@Column
 	private String dateCreated;
+	
+	@Column
+	private String timeCreated;
 	
 	@Column
 	private Double balance;
@@ -46,30 +48,23 @@ public class Account implements Serializable{
 	private LoanAccount loanAccount;
 	
 	
-	
-	
 	public Account() {
 		this.accountStatus= true;
 	}
-	public Account(int accountId, String accountType, String dateCreated, Double balance, User user,LoanAccount loanAccount) {
+	
+	public Account(int accountId, String accountType, String dateCreated, String timeCreated, Double balance, User user,
+			boolean accountStatus, LoanAccount loanAccount) {
 		super();
 		this.accountId = accountId;
 		this.accountType = accountType;
 		this.dateCreated = dateCreated;
+		this.timeCreated = timeCreated;
 		this.balance = balance;
 		this.user = user;
-		this.accountStatus= true;
-		this.loanAccount=loanAccount;
+		this.accountStatus = accountStatus;
+		this.loanAccount = loanAccount;
 	}
-	public Account(String accountType, String dateCreated, Double balance, User user,LoanAccount loanAccount) {
-		super();
-		this.accountType = accountType;
-		this.dateCreated = dateCreated;
-		this.balance = balance;
-		this.user = user;
-		this.accountStatus= true;
-		this.loanAccount=loanAccount;
-	}
+
 	public LoanAccount getLoanAccount() {
 		return loanAccount;
 	}
@@ -114,11 +109,24 @@ public class Account implements Serializable{
 	public boolean setAccountStatus(Boolean accountStatus) {
 		return this.accountStatus = accountStatus;
 	}
+	
+	public String getTimeCreated() {
+		return timeCreated;
+	}
+
+	public void setTimeCreated(String timeCreated) {
+		this.timeCreated = timeCreated;
+	}
+
+	public void setAccountStatus(boolean accountStatus) {
+		this.accountStatus = accountStatus;
+	}
+
 	@Override
 	public String toString() {
 		return "Account [accountId=" + accountId + ", accountType=" + accountType + ", dateCreated=" + dateCreated
-				+ ", balance=" + balance + ", user=" + user + ", accountStatus=" + accountStatus + "]";
+				+ ", timeCreated=" + timeCreated + ", balance=" + balance + ", user=" + user + ", accountStatus="
+				+ accountStatus + ", loanAccount=" + loanAccount + "]";
 	}
-	
 	
 }

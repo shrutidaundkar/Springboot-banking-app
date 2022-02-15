@@ -6,6 +6,7 @@ import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -23,7 +24,9 @@ import com.xorbank.services.impl.SignUpServiceImpl;
 import net.bytebuddy.utility.RandomString;
 
 @RestController
-@RequestMapping("/server")
+//@RequestMapping("/server")
+@PropertySource("classpath:xorbankUrl.properties")
+@RequestMapping("${server.context-path}")
 @CrossOrigin(origins = "http://localhost:4200")
 public class SignUpController {
 
@@ -36,7 +39,8 @@ public class SignUpController {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-	@PostMapping("/save")
+//	@PostMapping("/save")
+	@PostMapping("${USER_SAVE}")
 	@Transactional
 	public MessageResponse signUpUser(@RequestBody User user) throws UnsupportedEncodingException, MessagingException {
 
@@ -66,7 +70,8 @@ public class SignUpController {
 			return new MessageResponse("Duplicate Email!", 400);
 	}
 
-	@PostMapping("/verify")
+//	@PostMapping("/verify")
+	@PostMapping("${USER_VERIFY}")
 	public MessageResponse verifyUser(@RequestBody EmailVerificationRequest emailVerificationRequest) {
 		if (signupService.verify(emailVerificationRequest.getEmailVerificationCode())) {
 			return new MessageResponse("Verification Successful", 201);
@@ -75,7 +80,8 @@ public class SignUpController {
 		}
 	}
 	
-	@GetMapping("/all-users")
+//	@GetMapping("/all-users")
+	@GetMapping("${GET_ALL_USERS}")
 	public ResponseEntity<Iterable<User>> getAllUsers() {
 		return ResponseEntity.ok().body(adminService.getAllUsers());
 	}

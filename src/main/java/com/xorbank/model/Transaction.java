@@ -16,8 +16,6 @@ public class Transaction implements Serializable, Comparable<Transaction>{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-//	@TableGenerator(name = "Transaction_Gen", table = "Transaction_ID_GEN", pkColumnName = "GEN_NAME", valueColumnName = "GEN_VAL", pkColumnValue = "Transaction_Gen", initialValue = 10000, allocationSize = 1)
-//	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "Transaction_Gen")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int transactionId;
 	
@@ -35,6 +33,9 @@ public class Transaction implements Serializable, Comparable<Transaction>{
 	
 	@Column
 	private String transactionDate;
+	
+	@Column
+	private String transactionTime;
 
 	@Column
 	private String description;
@@ -42,17 +43,26 @@ public class Transaction implements Serializable, Comparable<Transaction>{
 	public Transaction() {
 		super();
 	}
-	
-	public Transaction(int transactionId, int fromA, int toA, Double amount, String transactionStatus,
-			String transactionDate, String description) {
+
+	public Transaction(int transactionId, int fromAccount, int toAccount, Double amount, String transactionStatus,
+			String transactionDate, String transactionTime, String description) {
 		super();
 		this.transactionId = transactionId;
-		this.fromAccount = fromA;
-		this.toAccount = toA;
+		this.fromAccount = fromAccount;
+		this.toAccount = toAccount;
 		this.amount = amount;
 		this.transactionStatus = transactionStatus;
 		this.transactionDate = transactionDate;
+		this.transactionTime = transactionTime;
 		this.description = description;
+	}
+
+	public String getTransactionTime() {
+		return transactionTime;
+	}
+
+	public void setTransactionTime(String transactionTime) {
+		this.transactionTime = transactionTime;
 	}
 
 	public Double getAmount() {
@@ -114,13 +124,16 @@ public class Transaction implements Serializable, Comparable<Transaction>{
 	public String toString() {
 		return "Transaction [transactionId=" + transactionId + ", fromAccount=" + fromAccount + ", toAccount="
 				+ toAccount + ", amount=" + amount + ", transactionStatus=" + transactionStatus + ", transactionDate="
-				+ transactionDate + ", description=" + description + "]";
+				+ transactionDate + ", transactionTime=" + transactionTime + ", description=" + description + "]";
 	}
 
 	@Override
 	public int compareTo(Transaction o) {
-		
-		return this.transactionDate.compareTo(o.transactionDate);
+		if(o.transactionDate.compareTo(this.transactionDate) == 0)
+			return o.transactionTime.compareTo(this.transactionTime);
+		else
+			return o.transactionDate.compareTo(this.transactionDate);
+				
 	}
 
 	

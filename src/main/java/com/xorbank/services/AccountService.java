@@ -6,7 +6,7 @@ import com.xorbank.model.Account;
 import com.xorbank.model.LoanAccount;
 
 
-public interface AccountCreationService {
+public interface AccountService {
 
 	boolean createAccount(Account a);
 	Account getAccount(int accountId);

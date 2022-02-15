@@ -2,6 +2,7 @@ package com.xorbank.controllers;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -20,12 +21,13 @@ import com.xorbank.services.DocStorageService;
 //@RequestMapping("/server")
 @RequestMapping("${server.context-path}")
 @CrossOrigin(origins = "http://localhost:4200")
+@PropertySource("classpath:xorbankUrl.properties")
 public class DocumentController {
 	@Autowired
 	private DocStorageService docStorageService;
 
 	//@PostMapping("/uploadFile/{userId}")
-	@PostMapping("${upload.file}")
+	@PostMapping("${UPLOAD_FILE}")
 	public ResponseEntity<HttpStatus> uploadFile(@PathVariable("userId") Integer userId,  @RequestParam("file") MultipartFile file) {
 		docStorageService.saveFile(file, userId);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
@@ -33,7 +35,7 @@ public class DocumentController {
 
 	
 	//@GetMapping("/downloadFile/{id}")
-	@GetMapping("${download.file}")
+	@GetMapping("${DOWNLOAD_FILE}")
 	  public ResponseEntity<byte[]> downloadFile(@PathVariable Integer id) {
 	    Document document = docStorageService.getFile(id);
 

@@ -2,6 +2,10 @@ package com.xorbank.services.impl;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -60,9 +64,14 @@ public class FundTransferServiceImpl implements FundTransferService {
 		transaction.setToAccount(toAccount);
 		transaction.setDescription(description);
 		transaction.setAmount(amount);
-		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String currentDateTime = dateFormatter.format(new Date());
-		transaction.setTransactionDate(currentDateTime);
+		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+        String currentDate = dateFormatter.format(new Date());
+		transaction.setTransactionDate(currentDate);
+		
+		DateTimeFormatter myFormatObj = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
+		LocalDateTime myTimeObj = LocalDateTime.now();
+		String formattedTime = myTimeObj.format(myFormatObj);
+		transaction.setTransactionTime(formattedTime);
 		if (fromAccount != toAccount) {
 			
 			if (checkAccountValidity(toAccount) && checkAccountValidity(fromAccount)) {

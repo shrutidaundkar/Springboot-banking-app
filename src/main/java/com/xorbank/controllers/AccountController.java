@@ -3,6 +3,9 @@ package com.xorbank.controllers;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.Date;
 import java.util.List;
 
@@ -59,9 +62,14 @@ public class AccountController {
 		account.setAccountType(accountRequest.getAccountType());
 		account.setUser(user);
 		account.setBalance(accountRequest.getBalance());
-		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String currentDateTime = dateFormatter.format(new Date());
-		account.setDateCreated(currentDateTime);
+		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+        String currentDate = dateFormatter.format(new Date());
+        account.setDateCreated(currentDate);
+		
+		DateTimeFormatter myFormatObj = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
+		LocalDateTime myTimeObj = LocalDateTime.now();
+		String formattedTime = myTimeObj.format(myFormatObj);
+		account.setTimeCreated(formattedTime);
 
 		if(accountService.createAccount(account)) {
 			return new MessageResponse("Account Created Successfully!", 201);

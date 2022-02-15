@@ -24,10 +24,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xorbank.model.Account;
-import com.xorbank.model.LoanAccount;
 import com.xorbank.model.User;
 import com.xorbank.request.AccountRequest;
-import com.xorbank.request.LoanAccountRequest;
 import com.xorbank.request.UserRequest;
 import com.xorbank.response.MessageResponse;
 import com.xorbank.services.AccountService;
@@ -50,13 +48,13 @@ public class AccountController {
 	@Autowired
 	private ProfileService profileService;
 
-	public AccountController(AccountService accountCreationService, SignUpService signupService) {
+	public AccountController(AccountService accountService, SignUpService signupService) {
 		super();
-		this.accountService = accountCreationService;
+		this.accountService = accountService;
 		this.signupService = signupService;
 	}
 
-	//@PostMapping(path = "/account")
+	//@PostMapping(path = "/create-account")
 	@PostMapping("${CREATE_ACCOUNT}")
 	public MessageResponse signUp(@RequestBody AccountRequest accountRequest) throws Exception {
 		User user = signupService.getUser(accountRequest.getUserId());
@@ -64,6 +62,7 @@ public class AccountController {
 		account.setAccountType(accountRequest.getAccountType());
 		account.setUser(user);
 		account.setBalance(accountRequest.getBalance());
+		account.setAccountStatus(true);
 		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
         String currentDate = dateFormatter.format(new Date());
         account.setDateCreated(currentDate);
@@ -77,27 +76,6 @@ public class AccountController {
 			return new MessageResponse("Account Created Successfully!", 201);
 		}else {
 			return new MessageResponse("Account could not be created!",400);
-		}
-	}
-
-	//@PostMapping(path = "/loan-account")
-
-	@PostMapping("${LOAN_ACCOUNT}")
-	
-	public MessageResponse createloanAccount(@RequestBody LoanAccountRequest loanAccountReq) throws Exception {
-		User user = profileService.findByUserId(loanAccountReq.getUserId());
-		Account account=accountService.getAccount(loanAccountReq.getAccountId());
-		LoanAccount loanAccount = new LoanAccount();
-		loanAccount.setUser(user);
-		loanAccount.setAccount(account);
-		loanAccount.setBalance(loanAccountReq.getBalance());
-		loanAccount.setLoanType(loanAccountReq.getLoanType());
-		loanAccount.setTenure(loanAccountReq.getTenure());
-		loanAccount.setMonthlyEMI(loanAccountReq.getMonthlyEMI());
-		if(accountService.createLoanAccount(loanAccount)) {
-			return new MessageResponse("Loan Account Created Successfully!", 201);
-		}else {
-			return new MessageResponse("Loan Account could not be created!",400);
 		}
 	}
 	

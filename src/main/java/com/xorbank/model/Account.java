@@ -24,36 +24,31 @@ public class Account implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int accountId;
-	
 	@Column
 	private String accountType;
-	
 	@Column
 	private String dateCreated;
-	
 	@Column
 	private String timeCreated;
-	
 	@Column
 	private Double balance;
-	
-	@ManyToOne
-	@JsonBackReference
-	private User user;
 
 	private boolean accountStatus;
 	
+	@ManyToOne
+	@JsonBackReference(value="user-account")
+	private User user;
+	
 	@OneToOne(mappedBy="account")
 	@JsonManagedReference
-	private LoanAccount loanAccount;
+	private Loan loan;
 	
 	
 	public Account() {
-		this.accountStatus= true;
 	}
 	
 	public Account(int accountId, String accountType, String dateCreated, String timeCreated, Double balance, User user,
-			boolean accountStatus, LoanAccount loanAccount) {
+			boolean accountStatus, Loan loan) {
 		super();
 		this.accountId = accountId;
 		this.accountType = accountType;
@@ -62,14 +57,14 @@ public class Account implements Serializable{
 		this.balance = balance;
 		this.user = user;
 		this.accountStatus = accountStatus;
-		this.loanAccount = loanAccount;
+		this.loan = loan;
 	}
 
-	public LoanAccount getLoanAccount() {
-		return loanAccount;
+	public Loan getLoanAccount() {
+		return loan;
 	}
-	public void setLoanAccount(LoanAccount loanAccount) {
-		this.loanAccount = loanAccount;
+	public void setLoanAccount(Loan loanAccount) {
+		this.loan = loanAccount;
 	}
 	public int getAccountId() {
 		return accountId;
@@ -106,8 +101,9 @@ public class Account implements Serializable{
 	public Boolean getAccountStatus() {
 		return accountStatus;
 	}
-	public boolean setAccountStatus(Boolean accountStatus) {
-		return this.accountStatus = accountStatus;
+	
+	public void setAccountStatus(boolean accountStatus) {
+		this.accountStatus = accountStatus;
 	}
 	
 	public String getTimeCreated() {
@@ -118,15 +114,11 @@ public class Account implements Serializable{
 		this.timeCreated = timeCreated;
 	}
 
-	public void setAccountStatus(boolean accountStatus) {
-		this.accountStatus = accountStatus;
-	}
-
 	@Override
 	public String toString() {
 		return "Account [accountId=" + accountId + ", accountType=" + accountType + ", dateCreated=" + dateCreated
 				+ ", timeCreated=" + timeCreated + ", balance=" + balance + ", user=" + user + ", accountStatus="
-				+ accountStatus + ", loanAccount=" + loanAccount + "]";
+				+ accountStatus + ", loan=" + loan + "]";
 	}
 	
 }

@@ -32,10 +32,12 @@ public class ProfileController {
 		User user = profileService.findByUserId(userId);
 		return new ResponseEntity<>(user, HttpStatus.OK);
 	}
+	
 //	@PutMapping("/profile/update")
 	@PutMapping("${USER_PROFILE_UPDATE}")
 	public ResponseEntity<User> updateEmployee(@RequestBody User user) 	
 	{
+		user.setEmailverified(true);
 		User updatedUser = profileService.updateUser(user);
 		return new ResponseEntity<>(updatedUser, HttpStatus.OK);
 	}

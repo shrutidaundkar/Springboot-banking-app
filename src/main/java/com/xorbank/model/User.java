@@ -47,7 +47,7 @@ public class User {
 	private int otp;
 
 	@OneToMany(mappedBy = "user")
-	@JsonManagedReference
+	@JsonManagedReference(value="user-account")
 	private List<Account> accounts = new ArrayList<Account>();
 	
 	@OneToOne
@@ -55,18 +55,17 @@ public class User {
 	@JsonManagedReference(value="user-document")
 	private Document document;
 	
-	@OneToOne
+	@OneToMany(mappedBy = "user")
 	@JsonManagedReference(value="user-loan")
-	private LoanAccount loanAccount;
+	private List<Loan> loans = new ArrayList<Loan>();
 	
 
 	public User() {
 	}
-
 	
 	public User(int userId, String firstname, String lastname, String email, String mobile, String dateofbirth,
 			String age, String gender, String password, String resetPasswordToken, String emailVerificationCode,
-			boolean emailVerified, int otp, List<Account> accounts, Document document,LoanAccount loanAccount) {
+			boolean emailVerified, int otp, List<Account> accounts, Document document) {
 		super();
 		this.userId = userId;
 		this.firstname = firstname;
@@ -83,7 +82,6 @@ public class User {
 		this.otp = otp;
 		this.accounts = accounts;
 		this.document = document;
-		this.loanAccount=loanAccount;
 	}
 
 
@@ -221,13 +219,16 @@ public class User {
 		this.emailVerified = emailVerified;
 	}
 
-	public LoanAccount getLoanAccount() {
-		return loanAccount;
+
+	public List<Loan> getLoans() {
+		return loans;
 	}
 
-	public void setLoanAccount(LoanAccount loanAccount) {
-		this.loanAccount = loanAccount;
+
+	public void setLoans(List<Loan> loans) {
+		this.loans = loans;
 	}
+
 
 	@Override
 	public String toString() {
@@ -235,6 +236,6 @@ public class User {
 				+ ", mobile=" + mobile + ", dateofbirth=" + dateofbirth + ", age=" + age + ", gender=" + gender
 				+ ", password=" + password + ", resetPasswordToken=" + resetPasswordToken + ", emailVerificationCode="
 				+ emailVerificationCode + ", emailVerified=" + emailVerified + ", otp=" + otp + ", accounts=" + accounts
-			 + "]";
+				+ ", document=" + document + ", loans=" + loans + "]";
 	}
 }

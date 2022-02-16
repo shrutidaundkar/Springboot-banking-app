@@ -33,7 +33,7 @@ import com.xorbank.response.MessageResponse;
 import com.xorbank.services.AccountService;
 import com.xorbank.services.ProfileService;
 import com.xorbank.services.SignUpService;
-import com.xoriant.utility.AccountPDFExporter;
+import com.xorbank.utility.AccountPDFExporter;
 
 @RestController
 //@RequestMapping(path = "/server")

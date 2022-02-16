@@ -27,7 +27,6 @@ import com.xorbank.model.User;
 import com.xorbank.request.TransactionRequest;
 import com.xorbank.response.MessageResponse;
 import com.xorbank.services.FundTransferService;
-import com.xoriant.utility.TransactionPDFExporter;
 
 @RestController
 //@RequestMapping("/server")

@@ -14,6 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.dom4j.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xorbank.model.Account;
+import com.xorbank.model.ActivemqMessage;
 import com.xorbank.model.User;
 import com.xorbank.request.AccountRequest;
 import com.xorbank.request.UserRequest;
@@ -47,11 +51,22 @@ public class AccountController {
 
 	@Autowired
 	private ProfileService profileService;
+	
+	@Autowired
+	private JmsTemplate jmstemplate;
 
 	public AccountController(AccountService accountService, SignUpService signupService) {
 		super();
 		this.accountService = accountService;
 		this.signupService = signupService;
+	}
+	
+	@PostMapping("/ActiveMq")
+	public ResponseEntity<String> publicMessage(@RequestBody ActivemqMessage activemqMessage){
+
+		//jmstemplate.convertAndSend(activemqMessage );
+		jmstemplate.convertAndSend("Xorbank",activemqMessage );
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	//@PostMapping(path = "/create-account")

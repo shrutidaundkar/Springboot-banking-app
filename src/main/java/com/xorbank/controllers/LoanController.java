@@ -68,6 +68,7 @@ public class LoanController {
 	//@GetMapping(path = "all-loans/{userId}")
 	@GetMapping("${GET_ALL_LOANS}")
 	public List<Loan> getAllLoans(@PathVariable("userId") Integer userId) {
-		return profileService.findByUserId(userId).getLoans();
+		return loanService.findAllLoans(userId);
+		//return profileService.findByUserId(userId).getLoans();
 	}
 }

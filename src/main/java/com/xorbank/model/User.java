@@ -48,7 +48,7 @@ public class User {
 
 	@OneToMany(mappedBy = "user")
 	@JsonManagedReference(value="user-account")
-	private List<Account> accounts = new ArrayList<Account>();
+	private List<Account> accounts;
 	
 	@OneToOne
     @JoinColumn(name = "documentId", referencedColumnName = "documentId")
@@ -57,7 +57,7 @@ public class User {
 	
 	@OneToMany(mappedBy = "user")
 	@JsonManagedReference(value="user-loan")
-	private List<Loan> loans = new ArrayList<Loan>();
+	private List<Loan> loans;
 	
 
 	public User() {

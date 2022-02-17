@@ -35,7 +35,7 @@ import com.xorbank.response.MessageResponse;
 import com.xorbank.services.AccountService;
 import com.xorbank.services.ProfileService;
 import com.xorbank.services.SignUpService;
-import com.xorbank.utility.AccountPDFExporter;
+import com.xorbank.utils.AccountPDFExporter;
 
 @RestController
 //@RequestMapping(path = "/server")

@@ -4,7 +4,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.xorbank.model.Account;
 import com.xorbank.model.Loan;
+import com.xorbank.repository.AccountRepository;
 import com.xorbank.repository.LoanRepository;
 import com.xorbank.services.LoanService;
 
@@ -12,15 +15,21 @@ import com.xorbank.services.LoanService;
 @Service
 public class LoanServiceImpl implements LoanService{
 	
-	private final LoanRepository loanRepository;
 	@Autowired
-	public LoanServiceImpl(LoanRepository loanRepository ) {
+	private LoanRepository loanRepository;
+	
+	@Autowired
+	private AccountRepository accountRepository;
+	
+	public LoanServiceImpl(LoanRepository loanRepository,AccountRepository accountRepository){
 		super();
 		this.loanRepository=loanRepository;
+		this.accountRepository=accountRepository;
 	}
 
 	@Override
-	public boolean createLoanAccount(Loan loanAccount) {
+	public boolean createLoanAccount(Loan loanAccount,Account account) {
+		accountRepository.save(account);
 		loanRepository.save(loanAccount);
 		return true;
 		

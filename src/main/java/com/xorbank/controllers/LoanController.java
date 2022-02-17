@@ -53,12 +53,13 @@ public class LoanController {
 		loanAccount.setUser(user);
 		loanAccount.setAccount(account);
 		loanAccount.setRemainingAmount(loanRequest.getRemainingAmount());
+		account.setBalance(account.getBalance()+loanRequest.getLoanAmount());
 		loanAccount.setLoanAmount(loanRequest.getLoanAmount());
 		loanAccount.setLoanPurpose(loanRequest.getLoanPurpose());
 		loanAccount.setInterest(loanRequest.getInterest());
 		loanAccount.setTenureInMonths(loanRequest.getTenureInMonths());
 		loanAccount.setMonthlyEMI(loanRequest.getMonthlyEMI());
-		if(loanService.createLoanAccount(loanAccount)) {
+		if(loanService.createLoanAccount(loanAccount,account)) {
 			return new MessageResponse("Loan Process Successful", 201);
 		}else {
 			return new MessageResponse("Loan Process Unsuccessful",400);

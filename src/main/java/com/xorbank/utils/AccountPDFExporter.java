@@ -1,4 +1,4 @@
-package com.xorbank.utility;
+package com.xorbank.utils;
 
 import java.awt.Color;
 import java.io.IOException;

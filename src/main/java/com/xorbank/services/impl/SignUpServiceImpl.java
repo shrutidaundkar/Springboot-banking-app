@@ -89,7 +89,7 @@ public class SignUpServiceImpl implements SignUpService {
 	        return false;
 	    } else {
 	        user.setEmailVerificationCode(null);
-	        user.setEmailverified(true);
+	        user.setEmailVerified(true);
 	        repo.save(user);
 	         
 	        return true;

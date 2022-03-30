@@ -11,4 +11,6 @@ public interface LoanService {
 	boolean createLoanAccount(Loan loanAccount,Account account);
 	
 	List<Loan> findAllLoans(int userId);
+
+	boolean checkAccountNo(int userId, int accountId);
 }

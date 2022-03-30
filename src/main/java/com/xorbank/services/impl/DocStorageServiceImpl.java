@@ -24,7 +24,6 @@ public class DocStorageServiceImpl implements DocStorageService{
 		User user = userRepo.findByUserId(userId);
 		try {
 			Document document = new Document(docname, file.getContentType(), file.getBytes(),user);
-			System.out.println(document);
 			return docRepository.save(document);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -33,9 +32,9 @@ public class DocStorageServiceImpl implements DocStorageService{
 	}
 
 	@Override
-	public Document getFile(Integer fileId) {
+	public Document getFile(Integer userID) {
 		
-		return docRepository.findById(fileId).get();
+		return (Document) docRepository.findByUserUserId(userID);
 	}
 	
 }

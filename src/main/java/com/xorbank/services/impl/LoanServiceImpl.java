@@ -39,4 +39,12 @@ public class LoanServiceImpl implements LoanService{
 	public List<Loan> findAllLoans(int userId) {
 		return loanRepository.findByUserUserId(userId);
 	}
+
+	@Override
+	public boolean checkAccountNo(int userId, int accountId) {
+		if(loanRepository.findLoanByUserIdAccountID(userId,accountId) != null) {
+			return true;
+		}
+		return false;
+	}
 }

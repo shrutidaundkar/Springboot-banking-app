@@ -6,4 +6,6 @@ import com.xorbank.model.Document;
 
 public interface DocRepository extends JpaRepository<Document, Integer>{
 
+	Object findByUserUserId(Integer fileId);
+
 }

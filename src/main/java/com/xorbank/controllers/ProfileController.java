@@ -37,7 +37,7 @@ public class ProfileController {
 	@PutMapping("${USER_PROFILE_UPDATE}")
 	public ResponseEntity<User> updateEmployee(@RequestBody User user) 	
 	{
-		user.setEmailverified(true);
+		user.setEmailVerified(true);
 		User updatedUser = profileService.updateUser(user);
 		return new ResponseEntity<>(updatedUser, HttpStatus.OK);
 	}

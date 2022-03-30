@@ -49,7 +49,7 @@ public class SignUpController {
 
 				String randomCode = RandomString.make(5);
 				user.setEmailVerificationCode(randomCode);
-				user.setEmailverified(false);
+				user.setEmailVerified(false);
 				String site_url = ConstantMessages.getSiteurl();
 				String encodedPassword = passwordEncoder.encode(user.getPassword());
 				user.setPassword(encodedPassword);

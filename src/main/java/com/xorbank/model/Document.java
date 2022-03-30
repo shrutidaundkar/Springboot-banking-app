@@ -1,5 +1,6 @@
 package com.xorbank.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,6 +20,7 @@ public class Document {
 	private String docName;
 	private String docType;
 	@Lob
+	@Column(name = "docData", length = 1000)
 	private byte[] data;
 	@OneToOne
 	@JsonBackReference(value="user-document")

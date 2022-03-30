@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -71,5 +73,15 @@ public class LoanController {
 	public List<Loan> getAllLoans(@PathVariable("userId") Integer userId) {
 		return loanService.findAllLoans(userId);
 		//return profileService.findByUserId(userId).getLoans();
+	}
+	
+	@GetMapping("/check-account-no/{userId}/{accountId}")
+	public MessageResponse checkAccountNo(@PathVariable("userId") Integer userId,@PathVariable("accountId") Integer accountId)
+	{
+		if(loanService.checkAccountNo(userId,accountId) ) {
+			return new MessageResponse("Loan already taken on this account number", 400);
+		}else {
+			return new MessageResponse("Loan does not exist on this account number",201);
+		}
 	}
 }
